@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="QuanLyNhanKhau/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/ADMIN/Downloads/QLNhanKhau_1.0.0/QuanLyNhanKhau/Lib/jcalendar-1.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADMIN/Downloads/QLNhanKhau_1.0.0/QuanLyNhanKhau/Lib/mysql-connector-java-5.1.40/mysql-connector-java-5.1.40/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADMIN/Downloads/QLNhanKhau_1.0.0/QuanLyNhanKhau/Lib/poi-bin-4.1.1-20191023/poi-4.1.1/poi-4.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADMIN/Downloads/QLNhanKhau_1.0.0/QuanLyNhanKhau/Lib/poi-bin-4.1.1-20191023/poi-4.1.1/poi-examples-4.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADMIN/Downloads/QLNhanKhau_1.0.0/QuanLyNhanKhau/Lib/poi-bin-4.1.1-20191023/poi-4.1.1/poi-excelant-4.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADMIN/Downloads/QLNhanKhau_1.0.0/QuanLyNhanKhau/Lib/poi-bin-4.1.1-20191023/poi-4.1.1/poi-ooxml-4.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADMIN/Downloads/QLNhanKhau_1.0.0/QuanLyNhanKhau/Lib/poi-bin-4.1.1-20191023/poi-4.1.1/poi-ooxml-schemas-4.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADMIN/Downloads/QLNhanKhau_1.0.0/QuanLyNhanKhau/Lib/poi-bin-4.1.1-20191023/poi-4.1.1/poi-scratchpad-4.1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
