@@ -1,4 +1,10 @@
-# NMCNPM.KSTN.20211-Nhom06
-Bai tap lon Nhap mon CNPM
+# NMCNPM.KSTN.20211-Nhóm06
+Bài tập lớn Nhập môn Công nghệ phần mềm
 
-Please read me
+Phần mềm quản lí nhân khẩu
+
+Author:
+- Nguyễn Trọng Bằng
+- Vũ Quang Trường
+- Nguyễn Ngọc Bảo
+- Nguyễn Quốc Hào
