@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 
 /**
  *
- * @author Ai lÃ m thÃ¬ Ä‘iá»�n tÃªn vÃ o
+ * @author Bằng
  */
 public class PhanThuongPanel extends javax.swing.JPanel {
 	private PhanThuongPanelController controller = null;

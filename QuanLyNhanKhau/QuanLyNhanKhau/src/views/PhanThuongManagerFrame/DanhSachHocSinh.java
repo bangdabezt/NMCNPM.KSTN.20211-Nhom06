@@ -2,6 +2,7 @@ package views.PhanThuongManagerFrame;
 
 import Bean.NhanKhauBean;
 import controllers.LoginController;
+import controllers.PhanThuongManagerController.DanhSachHocSinhPanelController;
 import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
 import controllers.PhanThuongPanelController;
 import java.awt.event.WindowAdapter;
@@ -37,7 +38,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
     private PhanThuongPanelController parentController;
     private JFrame parentFrame;
     private NhanKhauBean nhanKhauBean;
-    private LapDanhSachChauNhoController controller;
+    private DanhSachHocSinhPanelController controller;
 
 
     public DanhSachHocSinh(PhanThuongPanelController parentController, JFrame parentJFrame) {
@@ -48,12 +49,15 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         initComponents();
         setTitle("Danh sách đã lập");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
+        controller = new DanhSachHocSinhPanelController(tablePanel, textField_2, SuKienJTF, btnSaPhnQu_1, btnSaPhnQu, btnTraoQua, ngayTrao, txtpnA, this);
+        controller.setParentJFrame(parentFrame);
+        controller.setDataTableTraoQua();
+        controller.setText();
         
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Are you sure to close??", "Warning!!", JOptionPane.YES_NO_OPTION) == 0) {
+                if (JOptionPane.showConfirmDialog(null, "Are you sure to close?", "Warning!", JOptionPane.YES_NO_OPTION) == 0) {
                     close();
                 }
             }
@@ -84,12 +88,15 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         initComponents();
         setTitle("Danh sách đã lập");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
+        controller = new DanhSachHocSinhPanelController(tablePanel, textField_2, SuKienJTF, btnSaPhnQu_1, btnSaPhnQu, btnTraoQua, ngayTrao, txtpnA, this);
+        controller.setParentJFrame(parentFrame);
+        controller.setDataTableTraoQua();
+        controller.setText();
         
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Are you sure to close??", "Warning!!", JOptionPane.YES_NO_OPTION) == 0) {
+                if (JOptionPane.showConfirmDialog(null, "Are you sure to close?", "Warning!", JOptionPane.YES_NO_OPTION) == 0) {
                     close();
                 }
             }
@@ -117,7 +124,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         CancelBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        namSinhDateC = new com.toedter.calendar.JDateChooser();
+        ngayTrao = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,14 +138,18 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         ConfirmBtn.setText("Confirm");
         ConfirmBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+            	confirmBtnActionPerformed(evt);
             }
         });
 
         CancelBtn.setBackground(new java.awt.Color(255, 255, 255));
         CancelBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         CancelBtn.setText("Cancel");
-        
+        CancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	cancelBtnActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Năm học:");
@@ -146,7 +157,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setText("Ngày trao quà:");
         
-        JPanel tablePanel = new JPanel();
+        tablePanel = new JPanel();
         GroupLayout gl_tablePanel = new GroupLayout(tablePanel);
         gl_tablePanel.setHorizontalGroup(
         	gl_tablePanel.createParallelGroup(Alignment.LEADING)
@@ -163,7 +174,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         textField_2 = new JTextField();
         textField_2.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        JButton btnSaPhnQu = new JButton();
+        btnSaPhnQu = new JButton();
         btnSaPhnQu.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         	}
@@ -172,12 +183,13 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         btnSaPhnQu.setFont(new Font("Tahoma", Font.PLAIN, 12));
         btnSaPhnQu.setBackground(Color.WHITE);
         
-        JButton btnTraoQua = new JButton();
+        btnTraoQua = new JButton();
         btnTraoQua.setText("Trao quà");
         btnTraoQua.setFont(new Font("Tahoma", Font.PLAIN, 12));
         btnTraoQua.setBackground(Color.WHITE);
         
-        JTextPane txtpnA = new JTextPane();
+        txtpnA = new JTextPane();
+        txtpnA.setEditable(false);
         txtpnA.setFont(new Font("Arial", Font.BOLD, 14));
         txtpnA.setText("Có 7/10 cháu đã có minh chứng \nCó 5/7 cháu đã nhận quà");
         
@@ -213,7 +225,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         								.addGap(57)
         								.addComponent(jLabel8)
         								.addGap(26)
-        								.addComponent(namSinhDateC, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        								.addComponent(ngayTrao, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         							.addComponent(tablePanel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 680, GroupLayout.PREFERRED_SIZE))
         						.addPreferredGap(ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
         						.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
@@ -241,7 +253,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         					.addComponent(SuKienJTF, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         					.addComponent(jLabel8, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        				.addComponent(namSinhDateC, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(ngayTrao, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
         			.addGap(18)
         			.addComponent(lblDanhSchCc, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -279,6 +291,18 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {
+    	if (JOptionPane.showConfirmDialog(this, "Are you sure to close?", "Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            this.parentFrame.setEnabled(true);
+            dispose();
+        }
+    }
+    public void confirmBtnActionPerformed(java.awt.event.ActionEvent evt) {
+    	if (JOptionPane.showConfirmDialog(this, "Are you sure to confirm?", "Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            this.parentFrame.setEnabled(true);
+            dispose();
+        }
+    }
     
     // su ly su kien nhan nut create
     //GEN-LAST:event_CreateBtnActionPerformed
@@ -296,8 +320,12 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private com.toedter.calendar.JDateChooser namSinhDateC;
+    private com.toedter.calendar.JDateChooser ngayTrao;
     private JTextField textField_2;
     private JButton btnSaPhnQu_1;
     private JLabel lblDanhSchCc;
+    private JPanel tablePanel;
+    private JButton btnSaPhnQu;
+    private JButton btnTraoQua;
+    private JTextPane txtpnA;
 }

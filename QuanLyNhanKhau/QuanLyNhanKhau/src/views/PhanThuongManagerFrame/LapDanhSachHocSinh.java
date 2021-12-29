@@ -1,8 +1,9 @@
 package views.PhanThuongManagerFrame;
 
-import Bean.NhanKhauBean;
+import Bean.HocSinhBean;
 import controllers.LoginController;
 import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
+import controllers.PhanThuongManagerController.DanhSachHocSinhPanelController;
 import controllers.PhanThuongPanelController;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import services.HocSinhService;
 
 
 /**
@@ -30,24 +32,26 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
      */
     private PhanThuongPanelController parentController;
     private JFrame parentFrame;
-    private NhanKhauBean nhanKhauBean;
-    private LapDanhSachChauNhoController controller;
-
+    private HocSinhBean hocSinhBean;
+    private DanhSachHocSinhPanelController controller;
+    private HocSinhService hocSinhService = new HocSinhService();
 
     public LapDanhSachHocSinh(PhanThuongPanelController parentController, JFrame parentJFrame) {
         this.parentController = parentController;
         this.parentFrame = parentJFrame;
         this.parentFrame.setEnabled(false);
-        this.nhanKhauBean = new NhanKhauBean();
+        this.hocSinhBean = new HocSinhBean();
         initComponents();
         setTitle("Lập danh sách phát quà");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
+        controller = new DanhSachHocSinhPanelController(tablePanel,txtId);
+        controller.setParentJFrame(parentFrame);
+        controller.setDataTable();
         
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Are you sure to close??", "Warning!!", JOptionPane.YES_NO_OPTION) == 0) {
+                if (JOptionPane.showConfirmDialog(null, "Are you sure to close?", "Warning!", JOptionPane.YES_NO_OPTION) == 0) {
                     close();
                 }
             }
@@ -74,11 +78,14 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         };
         this.parentFrame = parentJFrame;
         this.parentFrame.setEnabled(false);
-        this.nhanKhauBean = new NhanKhauBean();
+        this.hocSinhBean = new HocSinhBean();
         initComponents();
         setTitle("Lập danh sách phát quà");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
+        controller = new DanhSachHocSinhPanelController(tablePanel,txtId);
+        controller.setParentJFrame(parentFrame);
+        controller.setDataTable();
+        
         
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -124,14 +131,18 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         CreateBtn.setText("Create");
         CreateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+            	createBtnActionPerformed(evt);
             }
         });
 
         CancelBtn.setBackground(new java.awt.Color(255, 255, 255));
         CancelBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         CancelBtn.setText("Cancel");
-        
+        CancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	cancelBtnActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Năm học:");
@@ -139,7 +150,7 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel26.setText("Nhập thông tin 01 phần quà:");
         
-        JPanel tablePanel = new JPanel();
+        tablePanel = new JPanel();
         GroupLayout gl_tablePanel = new GroupLayout(tablePanel);
         gl_tablePanel.setHorizontalGroup(
         	gl_tablePanel.createParallelGroup(Alignment.LEADING)
@@ -153,8 +164,8 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         );
         tablePanel.setLayout(gl_tablePanel);
         
-        textField_2 = new JTextField();
-        textField_2.setFont(new Font("Arial", Font.PLAIN, 14));
+        txtId = new JTextField();
+        txtId.setFont(new Font("Arial", Font.PLAIN, 14));
         
         textField_3 = new JTextField();
         textField_3.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -195,6 +206,9 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         lblGiTr_1.setText("Giá trị:");
         lblGiTr_1.setFont(new Font("Arial", Font.BOLD, 14));
         
+        JLabel lblNewLabel = new JLabel("Danh sách học sinh trên địa bàn:");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1Layout.setHorizontalGroup(
@@ -208,10 +222,12 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         					.addComponent(SuKienJTF, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE))
         				.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         					.addGroup(jPanel1Layout.createSequentialGroup()
-        						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
         						.addContainerGap())
         					.addGroup(jPanel1Layout.createSequentialGroup()
-        						.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 680, GroupLayout.PREFERRED_SIZE)
+        						.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        							.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 680, GroupLayout.PREFERRED_SIZE)
+        							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 306, GroupLayout.PREFERRED_SIZE))
         						.addGap(58)
         						.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         							.addGroup(jPanel1Layout.createSequentialGroup()
@@ -262,10 +278,12 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         				.addComponent(SuKienJTF, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         				.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
         			.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(jLabel26, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
         				.addGroup(jPanel1Layout.createSequentialGroup()
-        					.addComponent(jLabel26, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
         						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
         						.addComponent(lblPhnQuC, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
@@ -291,9 +309,9 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
         						.addComponent(CreateBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
         						.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
-        				.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 434, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE))
         			.addGap(18)
-        			.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         			.addGap(23))
         );
         jPanel1.setLayout(jPanel1Layout);
@@ -313,14 +331,33 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    // su ly su kien nhan nut create
+    
     //GEN-LAST:event_CreateBtnActionPerformed
-    
-    
     // check cac gia tri duoc nhap vao form
-   
+    // xu ly su kien nhan nut create
+    public void createBtnActionPerformed(java.awt.event.ActionEvent evt) {
+    	try {
+    	String namhoc = SuKienJTF.getText();
+    	String phanQuaCoBan = textField_1.getText();
+    	float giaTri = Float.parseFloat(textField_6.getText()); 
+    	int sl_hsg = Integer.parseInt(textField_5.getText());
+    	int sl_hsk = Integer.parseInt(textField_3.getText());
+    	int sl_hstb = Integer.parseInt(textField.getText());
+    	hocSinhService.capNhatPhanQua(namhoc, phanQuaCoBan, giaTri, sl_hsg, sl_hsk, sl_hstb);
+    	JOptionPane.showMessageDialog(null, "Tạo danh sách phát quà và phần quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
+    	}
+    	catch(Exception e) {
+    		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Vui lòng kiểm tra lại.", "Warning!!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+    	}
+    }
 
-
+    public void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {
+    	if (JOptionPane.showConfirmDialog(this, "Are you sure to close?", "Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            this.parentFrame.setEnabled(true);
+            dispose();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
@@ -329,7 +366,7 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JPanel jPanel1;
-    private JTextField textField_2;
+    private JTextField txtId;
     private JTextField textField_3;
     private JLabel lblPhnQu;
     private JLabel lblGiTr;
@@ -341,4 +378,5 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
     private JLabel lblNhpSLng;
     private JLabel lblPhnQuC;
     private JLabel lblGiTr_1;
+    private JPanel tablePanel;
 }
