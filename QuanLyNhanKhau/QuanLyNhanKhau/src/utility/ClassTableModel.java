@@ -1,10 +1,12 @@
 package utility;
 
+import Bean.ChauNhoBean;
 import Bean.HoKhauBean;
 import Bean.HocSinhBean;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import models.GiaDinhModel;
+import models.LeTetModel;
 import models.NhanKhauModel;
 import models.TieuSuModel;
 import models.ThanhVienCuaHoModel;
@@ -37,6 +39,33 @@ public class ClassTableModel {
             obj[2] = item.getNamSinh();
             obj[3] = item.getGioiTinh();
             obj[4] = item.getDiaChiHienNay();
+            dtm.addRow(obj);
+        });
+        return dtm;
+    }
+    public DefaultTableModel setTableChauNho(List<ChauNhoBean> listChauNhoBean, String[] listColumn) {
+        final int columns = listColumn.length;
+        DefaultTableModel dtm = new DefaultTableModel()  {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return super.isCellEditable(row, column); //To change body of generated methods, choose Tools | Templates.
+            }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return columnIndex == 7 ? Boolean.class : String.class;
+            }
+        };
+        dtm.setColumnIdentifiers(listColumn);
+        Object[] obj;
+        obj = new Object[columns];
+        listChauNhoBean.forEach((ChauNhoBean item) -> {
+            obj[0] = item.getNhanKhauModel().getID();
+            obj[1] = item.getNhanKhauModel().getHoTen();
+            obj[2] = item.getNhanKhauModel().getNamSinh();
+            obj[3] = item.getNhanKhauModel().getGioiTinh();
+            obj[4] = item.getHoKhauModel().getMaHoKhau();
+            obj[5] = item.getThanhVienCuaHoModel().getQuanHeVoiChuHo();
+            obj[6] = item.getNhanKhauModel().getDiaChiHienNay();
             dtm.addRow(obj);
         });
         return dtm;

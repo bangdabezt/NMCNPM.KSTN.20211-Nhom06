@@ -184,6 +184,10 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         btnSaPhnQu.setBackground(Color.WHITE);
         
         btnTraoQua = new JButton();
+        btnTraoQua.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
         btnTraoQua.setText("Trao quà");
         btnTraoQua.setFont(new Font("Tahoma", Font.PLAIN, 12));
         btnTraoQua.setBackground(Color.WHITE);

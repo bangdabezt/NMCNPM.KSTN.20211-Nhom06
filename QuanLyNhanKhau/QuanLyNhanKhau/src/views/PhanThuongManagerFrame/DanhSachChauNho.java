@@ -2,6 +2,7 @@ package views.PhanThuongManagerFrame;
 
 import Bean.NhanKhauBean;
 import controllers.LoginController;
+import controllers.PhanThuongManagerController.DanhSachChauNhoController;
 import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
 import controllers.PhanThuongPanelController;
 import java.awt.event.WindowAdapter;
@@ -23,6 +24,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 
 /**
@@ -37,7 +40,7 @@ public class DanhSachChauNho extends javax.swing.JFrame {
     private PhanThuongPanelController parentController;
     private JFrame parentFrame;
     private NhanKhauBean nhanKhauBean;
-    private LapDanhSachChauNhoController controller;
+    private DanhSachChauNhoController controller;
 
 
     public DanhSachChauNho(PhanThuongPanelController parentController, JFrame parentJFrame) {
@@ -48,8 +51,7 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         initComponents();
         setTitle("Danh sách đã lập");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
-        
+        controller = new DanhSachChauNhoController(this, cbNam, cbSuKien, textField_2, tablePanel, thongTin);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -84,7 +86,7 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         initComponents();
         setTitle("Danh sách đã lập");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
+        controller = new DanhSachChauNhoController(this, cbNam, cbSuKien, textField_2, tablePanel, thongTin);
         
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -112,9 +114,13 @@ public class DanhSachChauNho extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        SuKienJTF = new javax.swing.JTextField();
         ConfirmBtn = new javax.swing.JButton();
         CancelBtn = new javax.swing.JButton();
+        CancelBtn.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		actionCancelPerformed(e);
+        	}
+        });
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         namSinhDateC = new com.toedter.calendar.JDateChooser();
@@ -122,8 +128,6 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        SuKienJTF.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         
 
         ConfirmBtn.setBackground(new java.awt.Color(255, 255, 255));
@@ -131,7 +135,7 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         ConfirmBtn.setText("Confirm");
         ConfirmBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+            	actionCancelPerformed(evt);
             }
         });
 
@@ -146,7 +150,7 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel8.setText("Ngày trao quà:");
         
-        JPanel tablePanel = new JPanel();
+        tablePanel = new JPanel();
         GroupLayout gl_tablePanel = new GroupLayout(tablePanel);
         gl_tablePanel.setHorizontalGroup(
         	gl_tablePanel.createParallelGroup(Alignment.LEADING)
@@ -166,6 +170,7 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         JButton btnSaPhnQu = new JButton();
         btnSaPhnQu.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		controller.suaPhanQua();
         	}
         });
         btnSaPhnQu.setText("Sửa phần quà");
@@ -173,20 +178,27 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         btnSaPhnQu.setBackground(Color.WHITE);
         
         JButton btnTraoQua = new JButton();
+        btnTraoQua.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		controller.traoQua(namSinhDateC.getDate());
+        	}
+        });
         btnTraoQua.setText("Trao quà");
         btnTraoQua.setFont(new Font("Tahoma", Font.PLAIN, 12));
         btnTraoQua.setBackground(Color.WHITE);
         
-        JComboBox<String> GenderJcb = new JComboBox<String>();
-        GenderJcb.setFont(new Font("Arial", Font.PLAIN, 14));
+        cbSuKien = new JComboBox<String>();
+        cbSuKien.setFont(new Font("Tahoma", Font.PLAIN, 11));
         
         JLabel lblSKin = new JLabel();
         lblSKin.setText("Sự kiện:");
         lblSKin.setFont(new Font("Arial", Font.BOLD, 14));
         
-        JTextPane txtpnA = new JTextPane();
-        txtpnA.setFont(new Font("Arial", Font.BOLD, 14));
-        txtpnA.setText("Có 10/12 hộ gia đình có cháu nhỏ \nCó 5/10 hộ đã nhận quà");
+        thongTin = new JTextPane();
+        thongTin.setFont(new Font("Arial", Font.BOLD, 14));
+        thongTin.setText("Người tạo: admin\r\nThời gian tạo sự kiện: 30/2/2019\r\nCó 10/12 hộ gia đình có cháu nhỏ \r\nCó 5/10 hộ đã nhận quà");
+        
+        cbNam = new JComboBox();
         
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -196,40 +208,44 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         			.addGap(28)
         			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(jPanel1Layout.createSequentialGroup()
-        					.addComponent(jLabel1)
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(SuKienJTF, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
-        					.addGap(126)
-        					.addComponent(lblSKin, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(GenderJcb, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
         					.addContainerGap())
-        				.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        					.addGroup(jPanel1Layout.createSequentialGroup()
-        						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
-        						.addContainerGap())
-        					.addGroup(jPanel1Layout.createSequentialGroup()
-        						.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 680, GroupLayout.PREFERRED_SIZE)
-        						.addPreferredGap(ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-        						.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
-        							.addGroup(jPanel1Layout.createSequentialGroup()
-        								.addComponent(jLabel8)
-        								.addPreferredGap(ComponentPlacement.UNRELATED)
-        								.addComponent(namSinhDateC, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
-        								.addGap(37))
-        							.addGroup(jPanel1Layout.createSequentialGroup()
-        								.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
-        									.addComponent(btnTraoQua, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        									.addComponent(btnSaPhnQu, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
-        								.addGap(134))
-        							.addGroup(jPanel1Layout.createSequentialGroup()
-        								.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-        								.addGap(58)
-        								.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-        								.addGap(84))
-        							.addGroup(jPanel1Layout.createSequentialGroup()
-        								.addComponent(txtpnA, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
-        								.addGap(50)))))))
+        				.addGroup(jPanel1Layout.createSequentialGroup()
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(jLabel1)
+        							.addGap(26)
+        							.addComponent(cbNam, 0, 255, Short.MAX_VALUE)
+        							.addGap(103)
+        							.addComponent(lblSKin, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(cbSuKien, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 727, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED)))
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+        							.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        								.addGroup(jPanel1Layout.createSequentialGroup()
+        									.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+        									.addGap(69)
+        									.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+        									.addGap(73))
+        								.addGroup(jPanel1Layout.createSequentialGroup()
+        									.addComponent(jLabel8)
+        									.addPreferredGap(ComponentPlacement.UNRELATED)
+        									.addComponent(namSinhDateC, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
+        									.addGap(37))
+        								.addGroup(jPanel1Layout.createSequentialGroup()
+        									.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
+        										.addComponent(btnTraoQua, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        										.addComponent(btnSaPhnQu, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
+        									.addGap(133))))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addGap(53)
+        							.addComponent(thongTin, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
+        							.addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
         	jPanel1Layout.createParallelGroup(Alignment.LEADING)
@@ -237,30 +253,30 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         			.addGap(37)
         			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
-        					.addComponent(SuKienJTF, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         					.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        					.addComponent(GenderJcb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+        					.addComponent(cbSuKien, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(cbNam, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
         				.addComponent(lblSKin, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        			.addPreferredGap(ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
-        				.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE)
+        			.addGap(46)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
         				.addGroup(jPanel1Layout.createSequentialGroup()
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         						.addComponent(namSinhDateC, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addComponent(jLabel8, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        					.addGap(35)
-        					.addComponent(txtpnA, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-        					.addGap(52)
+        					.addGap(32)
+        					.addComponent(thongTin, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+        					.addGap(73)
         					.addComponent(btnSaPhnQu, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
         					.addGap(18)
         					.addComponent(btnTraoQua, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-        					.addGap(88)
+        					.addGap(32)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
         						.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))))
+        						.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
+        				.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
         			.addGap(18)
         			.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        			.addGap(23))
+        			.addGap(25))
         );
         jPanel1.setLayout(jPanel1Layout);
 
@@ -284,18 +300,23 @@ public class DanhSachChauNho extends javax.swing.JFrame {
     
     
     // check cac gia tri duoc nhap vao form
-   
-
-
-
+	public void actionCancelPerformed(ActionEvent e) {
+    	if (JOptionPane.showConfirmDialog(this, "Are you sure to close?", "Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            this.parentFrame.setEnabled(true);
+            dispose();
+        }
+	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
     private javax.swing.JButton ConfirmBtn;
-    private javax.swing.JTextField SuKienJTF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private com.toedter.calendar.JDateChooser namSinhDateC;
     private JTextField textField_2;
+    private JComboBox cbNam;
+    private JComboBox cbSuKien;
+    private JPanel tablePanel ;
+    private JTextPane thongTin;
 }
 

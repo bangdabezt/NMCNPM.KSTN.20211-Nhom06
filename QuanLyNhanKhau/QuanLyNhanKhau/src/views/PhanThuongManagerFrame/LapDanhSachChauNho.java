@@ -6,6 +6,8 @@ import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
 import controllers.PhanThuongPanelController;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import models.ChungMinhThuModel;
@@ -17,6 +19,11 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 /**
@@ -25,9 +32,6 @@ import javax.swing.JLabel;
  */
 public class LapDanhSachChauNho extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AddNewPeopleJFrame
-     */
     private PhanThuongPanelController parentController;
     private JFrame parentFrame;
     private NhanKhauBean nhanKhauBean;
@@ -42,44 +46,9 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
         initComponents();
         setTitle("Lập danh sách phát quà");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
-        
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                if (JOptionPane.showConfirmDialog(null, "Are you sure to close??", "Warning!!", JOptionPane.YES_NO_OPTION) == 0) {
-                    close();
-                }
-            }
-            
-        });
-    }
-    
-    /**
-     * @wbp.parser.constructor
-     */
-    public LapDanhSachChauNho(JFrame parentJFrame) {
-        this.parentController = new PhanThuongPanelController(){
-            /*@Override
-            public void refreshData() {
-                // do nothing
-            }
-
-            @Override
-            public void initAction() {
-                // do nothing
-            }*/
-            
-            
-        };
-        this.parentFrame = parentJFrame;
-        this.parentFrame.setEnabled(false);
-        this.nhanKhauBean = new NhanKhauBean();
-        initComponents();
-        setTitle("Lập danh sách phát quà");
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
-        
+        controller = new LapDanhSachChauNhoController(tablePanel, jtfSearch, aAge, bAge);
+        controller.setParentJFrame(parentJFrame);
+        controller.setDataTable();
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -109,9 +78,14 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
         SuKienJTF = new javax.swing.JTextField();
         CreateBtn = new javax.swing.JButton();
         CancelBtn = new javax.swing.JButton();
+        CancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	cancelBtnActionPerformed(evt);
+            }
+        });
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        namSinhDateC = new com.toedter.calendar.JDateChooser();
+        ngaySuKien = new com.toedter.calendar.JDateChooser();
         jLabel26 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -126,7 +100,7 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
         CreateBtn.setText("Create");
         CreateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
+            	createActionPerformed(evt);
             }
         });
 
@@ -144,10 +118,19 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel26.setText("Độ tuổi trao quà:");
         
-        textField = new JTextField();
-        textField.setFont(new Font("Arial", Font.PLAIN, 14));
+        aAge = new JTextField("0");
+        aAge.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
+        aAge.setHorizontalAlignment(SwingConstants.CENTER);
+        aAge.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        JPanel tablePanel = new JPanel();
+        tablePanel = new JPanel();
         GroupLayout gl_tablePanel = new GroupLayout(tablePanel);
         gl_tablePanel.setHorizontalGroup(
         	gl_tablePanel.createParallelGroup(Alignment.LEADING)
@@ -161,8 +144,17 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
         );
         tablePanel.setLayout(gl_tablePanel);
         
-        textField_1 = new JTextField();
-        textField_1.setFont(new Font("Arial", Font.PLAIN, 14));
+        bAge = new JTextField("18");
+        bAge.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
+        bAge.setHorizontalAlignment(SwingConstants.CENTER);
+        bAge.setFont(new Font("Arial", Font.PLAIN, 14));
         
         JLabel jLabel4 = new JLabel();
         jLabel4.setText("=>");
@@ -172,21 +164,29 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
         jLabel5.setText("Tuổi");
         jLabel5.setFont(new Font("Arial", Font.ITALIC, 12));
         
-        textField_2 = new JTextField();
-        textField_2.setFont(new Font("Arial", Font.PLAIN, 14));
+        jtfSearch = new JTextField();
+        jtfSearch.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        textField_3 = new JTextField();
-        textField_3.setFont(new Font("Arial", Font.PLAIN, 14));
+        phanQua = new JTextField();
+        phanQua.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        textField_4 = new JTextField();
-        textField_4.setFont(new Font("Arial", Font.PLAIN, 14));
+        giaTriPanel = new JTextField();
+        giaTriPanel.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
+        giaTriPanel.setFont(new Font("Arial", Font.PLAIN, 14));
         
         lblPhnQu = new JLabel();
         lblPhnQu.setText("Phần quà:");
         lblPhnQu.setFont(new Font("Arial", Font.BOLD, 14));
         
         lblGiTr = new JLabel();
-        lblGiTr.setText("Giá trị:");
+        lblGiTr.setText("Giá trị (VNĐ):");
         lblGiTr.setFont(new Font("Arial", Font.BOLD, 14));
         
 
@@ -203,39 +203,39 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
         					.addGap(69)
         					.addComponent(jLabel8)
         					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(namSinhDateC, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(ngaySuKien, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
         					.addGap(197)
         					.addComponent(jLabel26)
         					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(aAge, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
         					.addPreferredGap(ComponentPlacement.UNRELATED)
         					.addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
         					.addPreferredGap(ComponentPlacement.UNRELATED)
-        					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(bAge, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
         					.addPreferredGap(ComponentPlacement.RELATED)
         					.addComponent(jLabel5, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
         					.addContainerGap())
         				.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         					.addGroup(jPanel1Layout.createSequentialGroup()
-        						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jtfSearch, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
         						.addContainerGap())
-        					.addGroup(jPanel1Layout.createSequentialGroup()
-        						.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 680, GroupLayout.PREFERRED_SIZE)
-        						.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-        						.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        							.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        					.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        						.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 707, GroupLayout.PREFERRED_SIZE)
+        						.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+        						.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        							.addGroup(jPanel1Layout.createSequentialGroup()
         								.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
         								.addGap(33)
         								.addComponent(CreateBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
         								.addGap(109))
-        							.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        							.addGroup(jPanel1Layout.createSequentialGroup()
         								.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
         									.addComponent(lblGiTr, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
         									.addComponent(lblPhnQu, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
         								.addPreferredGap(ComponentPlacement.RELATED)
         								.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
-        									.addComponent(textField_4)
-        									.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+        									.addComponent(giaTriPanel)
+        									.addComponent(phanQua, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
         								.addGap(49)))))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -246,37 +246,37 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
         					.addGap(36)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
         						.addComponent(jLabel5, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(bAge, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addComponent(jLabel4, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(aAge, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addComponent(jLabel26, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
         				.addGroup(jPanel1Layout.createSequentialGroup()
         					.addGap(37)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(namSinhDateC, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(ngaySuKien, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
         							.addComponent(SuKienJTF, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         							.addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         							.addComponent(jLabel8, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))))
-        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
-        				.addGroup(Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-        					.addPreferredGap(ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-        					.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(jPanel1Layout.createSequentialGroup()
         					.addGap(115)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         						.addComponent(lblPhnQu, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+        						.addComponent(phanQua, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
         					.addGap(30)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         						.addComponent(lblGiTr, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+        						.addComponent(giaTriPanel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
         					.addPreferredGap(ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
         						.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(CreateBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))))
+        						.addComponent(CreateBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
+        				.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE)))
         			.addGap(18)
-        			.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(jtfSearch, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         			.addGap(23))
         );
         jPanel1.setLayout(jPanel1Layout);
@@ -301,9 +301,37 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
     
     
     // check cac gia tri duoc nhap vao form
-   
-
-
+    public void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {
+    	if (JOptionPane.showConfirmDialog(this, "Are you sure to close?", "Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+            this.parentFrame.setEnabled(true);
+            dispose();
+        }
+    }
+    
+    public void createActionPerformed(java.awt.event.ActionEvent evt) {
+    	if(SuKienJTF.getText().length() == 0 || phanQua.getText().length() == 0 || aAge.getText().length() == 0 || bAge.getText().length() == 0) {
+    		JOptionPane.showMessageDialog(null, "Chưa nhập đủ thông tin, vui lòng kiểm tra lại", "Warning!!", JOptionPane.ERROR_MESSAGE);
+			return;
+    	}
+    	
+    	try {
+        	String suKien = SuKienJTF.getText();
+        	String phanQuaCoBan = phanQua.getText();
+        	float giaTri = Float.parseFloat(giaTriPanel.getText()); 
+        	int aAgeV = Integer.parseInt(aAge.getText());
+        	int bAgeV = Integer.parseInt(bAge.getText());
+        	if(controller.getChauNhoService().getListChauNho(aAgeV, bAgeV).size() == 0) {
+        		JOptionPane.showMessageDialog(null, "Không có ai trong danh sách nhận quà", "Warning!!", JOptionPane.ERROR_MESSAGE);
+    			return;                		
+        	}
+        	Date date = ngaySuKien.getDate();
+        	controller.getChauNhoService().taoSuKien(this, suKien, phanQuaCoBan, giaTri, aAgeV, bAgeV, date);
+        	}
+        	catch(Exception e) {
+        		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Vui lòng kiểm tra lại.", "Warning!!", JOptionPane.ERROR_MESSAGE);
+    			e.printStackTrace();
+        	}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
@@ -313,12 +341,13 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private com.toedter.calendar.JDateChooser namSinhDateC;
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
-    private JTextField textField_3;
-    private JTextField textField_4;
+    private com.toedter.calendar.JDateChooser ngaySuKien;
+    private JTextField aAge;
+    private JTextField bAge;
+    private JTextField jtfSearch;
+    private JTextField phanQua;
+    private JTextField giaTriPanel;
     private JLabel lblPhnQu;
     private JLabel lblGiTr;
+    private JPanel tablePanel;
 }
