@@ -76,7 +76,7 @@ public class DanhSachChauNhoController {
     	this.cbSuKien.removeAllItems();
     	listLeTetModel = traoQuaHoKhauService.getComboBoxSuKien(nam);
     	for(LeTetModel item : listLeTetModel) {
-    		String tmp = item.getTenSuKien() + " - " + item.getThoiGian();
+    		String tmp =item.getIdSuKien()+ ": " + item.getTenSuKien() + " - " + item.getThoiGian();
     		cbSuKien.addItem(tmp);
     	}
     }

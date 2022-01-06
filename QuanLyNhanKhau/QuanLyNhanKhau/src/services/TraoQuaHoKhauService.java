@@ -211,7 +211,7 @@ public class TraoQuaHoKhauService {
         try {
             Connection connection = MysqlConnection.getMysqlConnection();
             String query = "SELECT distinct year(le_tet.thoiGian) as nam\r\n"
-            		+ "from le_tet order by year(le_tet.thoiGian) desc";
+            		+ "from le_tet order by year(le_tet.ngayTao) desc";
             PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()){
