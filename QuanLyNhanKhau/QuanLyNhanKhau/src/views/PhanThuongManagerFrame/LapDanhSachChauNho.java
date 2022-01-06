@@ -309,7 +309,7 @@ public class LapDanhSachChauNho extends javax.swing.JFrame {
     }
     
     public void createActionPerformed(java.awt.event.ActionEvent evt) {
-    	if(SuKienJTF.getText().length() == 0 || phanQua.getText().length() == 0 || aAge.getText().length() == 0 || bAge.getText().length() == 0) {
+    	if(giaTriPanel.getText().length() == 0 || SuKienJTF.getText().length() == 0 || phanQua.getText().length() == 0 || aAge.getText().length() == 0 || bAge.getText().length() == 0) {
     		JOptionPane.showMessageDialog(null, "Chưa nhập đủ thông tin, vui lòng kiểm tra lại", "Warning!!", JOptionPane.ERROR_MESSAGE);
 			return;
     	}

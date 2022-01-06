@@ -189,8 +189,13 @@ public class DanhSachChauNhoController {
 				"\n" + "Sự kiện: " + list.get(row).getLeTetModel().getTenSuKien()+", ngày: " + list.get(row).getLeTetModel().getThoiGian()
 			, "Confirm!", JOptionPane.YES_NO_OPTION)) {
 			traoQuaHoKhauService.traoQua(list.get(row), date);
-			list = traoQuaHoKhauService.getListTraoQuaHoKhau(listLeTetModel.get(cbSuKien.getSelectedIndex()));
-			setData();
+            String key = searchJtf.getText().trim();
+            if (key.isEmpty()) {
+                list = traoQuaHoKhauService.getListTraoQuaHoKhau(listLeTetModel.get(cbSuKien.getSelectedIndex()));
+            } else {
+                list = traoQuaHoKhauService.search(key, listLeTetModel.get(cbSuKien.getSelectedIndex()));
+            }
+            setData();
 			thongTin.setText(traoQuaHoKhauService.getThongTinText(listLeTetModel.get(cbSuKien.getSelectedIndex())));
 		}
 
