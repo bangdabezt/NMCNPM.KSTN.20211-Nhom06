@@ -117,10 +117,10 @@ public class HocSinhService {
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,namhoc);
-            preparedStatement.setString(2,phanQuaCoBan);
+            preparedStatement.setNString(1,namhoc);
+            preparedStatement.setNString(2,phanQuaCoBan);
             preparedStatement.setFloat(3,giaTri);
-            preparedStatement.setString(4,phanQuaCoBan);
+            preparedStatement.setNString(4,phanQuaCoBan);
             preparedStatement.setFloat(5,giaTri);
             preparedStatement.execute();
             preparedStatement.close();
@@ -129,14 +129,15 @@ public class HocSinhService {
             this.exceptionHandle(mysqlException.getMessage());
         }
     	query = "INSERT INTO qua_hsg "+
-    			"VALUES ('Học sinh giỏi', ?, ?)"+
+    			"VALUES ( ? , ?, ?)"+
     			"ON DUPLICATE KEY UPDATE soLuongSuatQua = ?";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,namhoc);
-            preparedStatement.setInt(2,sl_hsg);
+            preparedStatement.setNString(1,"Học sinh giỏi");
+            preparedStatement.setString(2,namhoc);
             preparedStatement.setInt(3,sl_hsg);
+            preparedStatement.setInt(4,sl_hsg);
             preparedStatement.execute();
             preparedStatement.close();
             connection.close();
@@ -144,14 +145,15 @@ public class HocSinhService {
             this.exceptionHandle(mysqlException.getMessage());
         }
     	query = "INSERT INTO qua_hsg "+
-    			"VALUES ('Học sinh khá', ?, ?)"+
+    			"VALUES ( ? , ?, ?)"+
     			"ON DUPLICATE KEY UPDATE soLuongSuatQua = ?";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,namhoc);
-            preparedStatement.setInt(2,sl_hsk);
+            preparedStatement.setNString(1,"Học sinh khá");
+            preparedStatement.setString(2,namhoc);
             preparedStatement.setInt(3,sl_hsk);
+            preparedStatement.setInt(4,sl_hsk);
             preparedStatement.execute();
             preparedStatement.close();
             connection.close();
@@ -159,26 +161,29 @@ public class HocSinhService {
             this.exceptionHandle(mysqlException.getMessage());
         }
     	query = "INSERT INTO qua_hsg "+
-    			"VALUES ('Học sinh trung bình', ?, ?)"+
+    			"VALUES ( ? , ?, ?)"+
     			"ON DUPLICATE KEY UPDATE soLuongSuatQua = ?";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,namhoc);
-            preparedStatement.setInt(2,sl_hstb);
+            preparedStatement.setNString(1,"Học sinh trung bình");
+            preparedStatement.setString(2,namhoc);
             preparedStatement.setInt(3,sl_hstb);
+            preparedStatement.setInt(4,sl_hstb);
             preparedStatement.execute();
             preparedStatement.close();
             connection.close();
         } catch (Exception mysqlException) {
             this.exceptionHandle(mysqlException.getMessage());
         }
-    	query = "SELECT DISTINCT ID FROM nhan_khau WHERE ngheNghiep = 'Học sinh'";
+    	query = "SELECT DISTINCT ID FROM nhan_khau WHERE ngheNghiep = ? ";
     	ArrayList<Integer> idHocSinh = new ArrayList<Integer>();
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setNString(1,"Học sinh");
             ResultSet rs = preparedStatement.executeQuery();
+            
             while (rs.next()) {
             	idHocSinh.add(rs.getInt("ID"));
             }
@@ -188,13 +193,14 @@ public class HocSinhService {
             this.exceptionHandle(mysqlException.getMessage());
         }
     	for (Integer id : idHocSinh) {
-    		query = "INSERT INTO trao_qua_hsg(idNhanKhau, namHoc) VALUES(?, ?)";
+    		query = "INSERT INTO trao_qua_hsg(idNhanKhau, namHoc) VALUES( ? , ? )";
     		try {
                 Connection connection = MysqlConnection.getMysqlConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setInt(1,id);
                 preparedStatement.setString(2,namhoc);
                 preparedStatement.execute();
+             
                 preparedStatement.close();
                 connection.close();
             } catch (Exception mysqlException) {

@@ -36,8 +36,8 @@ public class ChauNhoService {
             String query = "SELECT *\r\n"
             		+ "FROM nhan_khau\r\n"
             		+ "INNER JOIN chung_minh_thu ON nhan_khau.ID = chung_minh_thu.idNhanKhau \r\n"
-            		+ "INNER JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau \r\n"
-            		+ "INNER JOIN ho_khau ON thanh_vien_cua_ho.idHoKhau = ho_khau.ID \r\n WHERE soCMT = " + cmt;
+            		+ "LEFT OUTER JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau \r\n"
+            		+ "INNER JOIN ho_khau ON thanh_vien_cua_ho.idHoKhau = ho_khau.ID or ho_khau.idChuHo = nhan_khau.ID \r\n WHERE soCMT = " + cmt;
             PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
             int idNhanKhau = -1;
@@ -68,6 +68,9 @@ public class ChauNhoService {
                 
                 ThanhVienCuaHoModel thanhVienCuaHoModel = chauNhoBean.getThanhVienCuaHoModel();
                 thanhVienCuaHoModel.setQuanHeVoiChuHo(rs.getString("quanHeVoiChuHo"));
+                if(thanhVienCuaHoModel.getQuanHeVoiChuHo() == null) {
+                	thanhVienCuaHoModel.setQuanHeVoiChuHo("Chủ hộ");
+                }
             }
             preparedStatement.close();
             if (idNhanKhau > 0) {
@@ -123,8 +126,8 @@ public class ChauNhoService {
             String query = "SELECT *\r\n"
             		+ "FROM nhan_khau\r\n"
             		+ "INNER JOIN chung_minh_thu ON nhan_khau.ID = chung_minh_thu.idNhanKhau \r\n"
-            		+ "INNER JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau \r\n"
-            		+ "INNER JOIN ho_khau ON thanh_vien_cua_ho.idHoKhau = ho_khau.ID \r\n"
+            		+ "LEFT OUTER JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau \r\n"
+            		+ "INNER JOIN ho_khau ON thanh_vien_cua_ho.idHoKhau = ho_khau.ID or ho_khau.idChuHo = nhan_khau.ID \r\n"
             		+ "WHERE YEAR(NOW()) - YEAR(namSinh) >= "+ a +" AND YEAR(NOW()) - YEAR(namSinh) <= " + b + "\r\n"
             		+ "ORDER BY ho_khau.maHoKhau";
             PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
@@ -146,6 +149,9 @@ public class ChauNhoService {
                 hoKhauModel.setMaHoKhau(rs.getString("maHoKhau"));
                 ThanhVienCuaHoModel thanhVienCuaHoModel = ChauNhoBean.getThanhVienCuaHoModel();
                 thanhVienCuaHoModel.setQuanHeVoiChuHo(rs.getString("quanHeVoiChuHo"));
+                if(thanhVienCuaHoModel.getQuanHeVoiChuHo() == null) {
+                	thanhVienCuaHoModel.setQuanHeVoiChuHo("Chủ hộ");
+                }
                 list.add(ChauNhoBean);
             }
             preparedStatement.close();
@@ -166,8 +172,8 @@ public class ChauNhoService {
         query = 	"SELECT * "
                 + "FROM nhan_khau "
                 + "INNER JOIN chung_minh_thu ON nhan_khau.ID = chung_minh_thu.idNhanKhau \r\n"
-        		+ "INNER JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau \r\n"
-        		+ "INNER JOIN ho_khau ON thanh_vien_cua_ho.idHoKhau = ho_khau.ID \r\n"
+        		+ "LEFT OUTER JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau \r\n"
+        		+ "INNER JOIN ho_khau ON thanh_vien_cua_ho.idHoKhau = ho_khau.ID or ho_khau.idChuHo = nhan_khau.ID \r\n"
                 + "WHERE (chung_minh_thu.soCMT LIKE ? "
                 + "OR nhan_khau.ID LIKE ? "
     			+ "OR hoTen LIKE ? "
@@ -213,7 +219,9 @@ public class ChauNhoService {
                 hoKhauModel.setMaHoKhau(rs.getString("maHoKhau"));
                 ThanhVienCuaHoModel thanhVienCuaHoModel = temp.getThanhVienCuaHoModel();
                 thanhVienCuaHoModel.setQuanHeVoiChuHo(rs.getString("quanHeVoiChuHo"));
-                
+                if(thanhVienCuaHoModel.getQuanHeVoiChuHo() == null) {
+                	thanhVienCuaHoModel.setQuanHeVoiChuHo("Chủ hộ");
+                }
                 list.add(temp);
             }
             preparedStatement.close();
@@ -291,17 +299,18 @@ public class ChauNhoService {
             preparedStatement.close();
             String queryInsert = "INSERT INTO trao_qua_le_tet(idHoKhau, idSuKien, soLuongQua, trangThai)"
             		+ "VALUES(?, ?, ?, ?)";
-            query = "SELECT thanh_vien_cua_ho.idHoKhau, COUNT(nhan_khau.ID) as soLuongChauNho\r\n"
+            query = "SELECT ho_khau.ID, COUNT(nhan_khau.ID) as soLuongChauNho\r\n"
             		+ "FROM nhan_khau\r\n"
             		+ "INNER JOIN chung_minh_thu ON nhan_khau.ID = chung_minh_thu.idNhanKhau \r\n"
-            		+ "INNER JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau \r\n"
+            		+ "LEFT OUTER JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau \r\n"
+            		+ "INNER JOIN ho_khau ON thanh_vien_cua_ho.idHoKhau = ho_khau.ID or ho_khau.idChuHo = nhan_khau.ID \r\n"
             		+ "WHERE YEAR(NOW()) - YEAR(namSinh) >= "+ aAge +" AND YEAR(NOW()) - YEAR(namSinh) <= " + bAge + "\r\n"
-            		+ "GROUP BY thanh_vien_cua_ho.idHoKhau";
+            		+ "GROUP BY ho_khau.ID";
             preparedStatement = connection.prepareStatement(query);
             rs = preparedStatement.executeQuery();
             PreparedStatement preparedStatementInsert;
             while(rs.next()) {
-            	int idHoKhau = rs.getInt("idHoKhau");
+            	int idHoKhau = rs.getInt("ho_khau.ID");
             	int soLuongChauNho = rs.getInt("soLuongChauNho");
             	preparedStatementInsert = connection.prepareStatement(queryInsert);
             	preparedStatementInsert.setInt(1, idHoKhau);
