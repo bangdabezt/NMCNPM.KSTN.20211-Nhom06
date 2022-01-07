@@ -244,17 +244,18 @@ public class HocSinhService {
 		String query = "UPDATE trao_qua_hsg "
     			+ "SET thanhTich = ?, minhChung = ?, trangThai = "
     			+ "CASE "
-    			+ "	WHEN trangThai IS NULL THEN 'Chưa nhận' "
+    			+ "	WHEN trangThai IS NULL THEN ? "
     			+ " ELSE trangThai "
     			+ "END "
     			+ "WHERE idNhanKhau = ? AND namHoc = ?";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,thanhTich);
+            preparedStatement.setNString(1,thanhTich);
             preparedStatement.setBinaryStream(2,in);
-            preparedStatement.setInt(3,id);
-            preparedStatement.setString(4,namHoc);
+            preparedStatement.setNString(3,"Chưa nhận");
+            preparedStatement.setInt(4,id);
+            preparedStatement.setString(5,namHoc);
             preparedStatement.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cập nhật minh chứng thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
             preparedStatement.close();
@@ -274,14 +275,15 @@ public class HocSinhService {
     	}
     	java.sql.Date sqlDate = new java.sql.Date(date.getTime());
     	String query = "UPDATE trao_qua_hsg "
-    			+ "SET trangThai = 'Đã nhận', ngayNhan = ? "
+    			+ "SET trangThai = ? , ngayNhan = ? "
     			+ "WHERE idNhanKhau = ? AND namHoc = ?";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setDate(1, sqlDate);
-            preparedStatement.setInt(2,hocSinhBean.getNhanKhauModel().getID());
-            preparedStatement.setString(3,hocSinhBean.getTraoQuaHsgModel().getNamHoc());
+            preparedStatement.setNString(1, "Đã nhận");
+            preparedStatement.setDate(2, sqlDate);
+            preparedStatement.setInt(3,hocSinhBean.getNhanKhauModel().getID());
+            preparedStatement.setString(4,hocSinhBean.getTraoQuaHsgModel().getNamHoc());
             preparedStatement.executeUpdate();
             JOptionPane.showMessageDialog(null, "Trao quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
             preparedStatement.close();
@@ -325,11 +327,12 @@ public class HocSinhService {
         }
     	String slnqquery = "SELECT COUNT(*) AS slnq "
     			+ "FROM trao_qua_hsg "
-    			+ "WHERE namHoc = ? AND trangThai = 'Đã nhận'";
+    			+ "WHERE namHoc = ? AND trangThai = ? ";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(slnqquery);
             preparedStatement.setString(1, namHoc);
+            preparedStatement.setNString(2, "Đã nhận");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
             	soluongnq = rs.getInt("slnq");

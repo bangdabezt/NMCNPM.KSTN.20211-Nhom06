@@ -368,7 +368,7 @@ public class DanhSachHocSinhPanelController {
 			JOptionPane.showMessageDialog(null, "Chưa chọn học sinh!", "Error!", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if (listHocSinhBeans.get(row).getTraoQuaHsgModel().getTrangThai().charAt(0) != 'C') {
+		if (listHocSinhBeans.get(row).getTraoQuaHsgModel().getTrangThai() != null && listHocSinhBeans.get(row).getTraoQuaHsgModel().getTrangThai().charAt(0) != 'C') {
     		JOptionPane.showMessageDialog(null, "Học sinh này đã được trao quà rồi!", "Error", JOptionPane.ERROR_MESSAGE);
     		return;
     	}
