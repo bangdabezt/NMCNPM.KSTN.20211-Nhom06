@@ -8,13 +8,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EventObject;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -48,6 +52,7 @@ public class DanhSachHocSinhPanelController {
     private ClassTableModel classTableModel = null;
     private final String[] COLUMNS = {"ID", "Họ tên", "Trường", "ID Hộ Khẩu", "Quan hệ với chủ hộ"};
     private final String[] COLUMNSTRAOQUA = {"ID", "Họ tên", "Thành tích", "Minh chứng", "Trạng thái"};
+    private final String[] COLUMNSTHONGKE = {"ID", "Họ tên", "Thành tích", "Giá trị"};
     private JFrame parentJFrame;
     private JButton suaPhanQuaBtn;
     private JButton capNhatMcBtn;
@@ -56,8 +61,11 @@ public class DanhSachHocSinhPanelController {
     private JTextPane info;
     private DefaultTableModel model;
     private JTable table;
-   
-
+    private JComboBox namHocCb;
+    private JTextPane hsLabel;
+    private JButton thongkeBtn;
+    private ArrayList<ArrayList<Object>> thongKe;
+    
     public DanhSachHocSinhPanelController(JPanel jpnView, JTextField jtfSearch) {
         this.jpnView = jpnView;
         this.jtfSearch = jtfSearch;
@@ -82,11 +90,38 @@ public class DanhSachHocSinhPanelController {
         this.parentJFrame = parentFrame;
         initAction();
     }
-    
+	
+	public DanhSachHocSinhPanelController(JPanel jpnView, JTextPane hsLabel, JTextField jtfSearch, JComboBox namHocCb, JButton thongkeBtn, JFrame parentFrame) {
+        this.jpnView = jpnView;
+        this.jtfSearch = jtfSearch;
+        this.namHocCb = namHocCb;
+        classTableModel = new ClassTableModel();
+        this.hocSinhService = new HocSinhService();
+        this.listHocSinhBeans = this.hocSinhService.getListHocSinh();
+        this.thongkeBtn = thongkeBtn;
+        this.hsLabel = hsLabel;
+        this.parentJFrame = parentFrame;
+        initAction();
+    }
+	
     public DanhSachHocSinhPanelController() {
     }
     
     public void initAction(){
+    	if (namHocCb!=null) {
+    		ArrayList<String> namHocList = hocSinhService.getAllNamHoc();
+    		String [] namHocArr = namHocList.toArray(new String[namHocList.size()]);
+    		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(namHocArr);
+    		namHocCb.setModel(model);
+    	}
+    	if (thongkeBtn!=null) {
+    		thongkeBtn.addActionListener(new ActionListener() {
+    			public void actionPerformed(ActionEvent e) {
+    				thongkeBtnActionPerformed(e);
+    			}
+    		});
+    	}
+    	
     	if (traoQuaBtn!=null)
     		traoQuaBtn.addActionListener(new ActionListener() {
     			public void actionPerformed(ActionEvent e) {
@@ -228,6 +263,65 @@ public class DanhSachHocSinhPanelController {
         jpnView.repaint();
     }
 
+    public void setDataTableThongKe(String namHoc) {
+    	thongKe = hocSinhService.getThongKe(namHoc);
+        model = classTableModel.setTableThongKe(thongKe, COLUMNSTHONGKE);
+        table = new JTable(model) {
+            @Override
+            public boolean editCellAt(int row, int column, EventObject e) {
+                return false;
+            }
+            
+        };
+        
+        // thiet ke bang
+        
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        table.getTableHeader().setPreferredSize(new Dimension(100, 50));
+        table.setRowHeight(50);
+        table.validate();
+        table.repaint();
+        table.setFont(new Font("Arial", Font.PLAIN, 14));
+        table.getColumnModel().getColumn(0).setMaxWidth(80);
+        table.getColumnModel().getColumn(0).setMinWidth(80);
+        table.getColumnModel().getColumn(0).setPreferredWidth(80);
+        /*
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+//                JOptionPane.showConfirmDialog(null, table.getSelectedRow());
+                if (e.getClickCount() > 1) {
+                    NhanKhauBean temp = listNhanKhauBeans.get(table.getSelectedRow());
+                    NhanKhauBean info = nhanKhauService.getNhanKhau(temp.getChungMinhThuModel().getSoCMT());
+                    InfoJframe infoJframe = new InfoJframe(info.toString(), parentJFrame);
+                    infoJframe.setLocationRelativeTo(null);
+                    infoJframe.setVisible(true);
+                }
+            }
+            
+        });
+        */
+        JScrollPane scroll = new JScrollPane();
+        scroll.getViewport().add(table);
+        scroll.setPreferredSize(new Dimension(1350, 400));
+        jpnView.removeAll();
+        jpnView.setLayout(new BorderLayout());
+        jpnView.add(scroll);
+        jpnView.validate();
+        jpnView.repaint();
+    }	
+    
+    public void setTextThongKe() {
+    	int soluongqua = 0;
+    	float tonggt = 0;
+    	for (ArrayList<Object> row : thongKe) {
+    		soluongqua += (int)row.get(4);
+    		tonggt += (float)row.get(3);
+    	}
+    	hsLabel.setText("Tổng số lượng phần quà: "+ soluongqua + 
+    			"\nTổng giá trị: " + tonggt + " VND");
+    }
+    
     public void setText() {
     	String namHoc = listHocSinhBeans.get(0).getTraoQuaHsgModel().getNamHoc();
     	ArrayList<Integer> sl = hocSinhService.laySoLuong(namHoc);
@@ -274,6 +368,10 @@ public class DanhSachHocSinhPanelController {
 			JOptionPane.showMessageDialog(null, "Chưa chọn học sinh!", "Error!", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+		if (listHocSinhBeans.get(row).getTraoQuaHsgModel().getTrangThai().charAt(0) != 'C') {
+    		JOptionPane.showMessageDialog(null, "Học sinh này đã được trao quà rồi!", "Error", JOptionPane.ERROR_MESSAGE);
+    		return;
+    	}
 		CapNhatMinhChung capNhatMinhChung = new CapNhatMinhChung(parentJFrame, listHocSinhBeans.get(row), listHocSinhBeans.get(0).getTraoQuaHsgModel().getNamHoc(), this);
 		capNhatMinhChung.setLocationRelativeTo(null);
 		capNhatMinhChung.setResizable(false);
@@ -299,5 +397,10 @@ public class DanhSachHocSinhPanelController {
 		listHocSinhBeans = this.hocSinhService.getListHocSinh();
 		this.setDataTableTraoQua();
 		this.setText();
+    }
+    public void thongkeBtnActionPerformed(ActionEvent e) {
+    	String namHoc = (String) namHocCb.getSelectedItem();
+    	setDataTableThongKe(namHoc);
+    	setTextThongKe();
     }
 }

@@ -2,6 +2,7 @@ package views.PhanThuongManagerFrame;
 
 import Bean.NhanKhauBean;
 import controllers.LoginController;
+import controllers.PhanThuongManagerController.DanhSachHocSinhPanelController;
 import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
 import controllers.PhanThuongPanelController;
 import java.awt.event.WindowAdapter;
@@ -37,9 +38,9 @@ public class ThongKePhanQua extends javax.swing.JFrame {
     private PhanThuongPanelController parentController;
     private JFrame parentFrame;
     private NhanKhauBean nhanKhauBean;
-    private LapDanhSachChauNhoController controller;
-
-
+    private DanhSachHocSinhPanelController controller;
+    
+    //JPanel jpnView, JTextField jtfSearch, JComboBox namHocCb, JButton thongkeBtn, JFrame parentFrame
     public ThongKePhanQua (PhanThuongPanelController parentController, JFrame parentJFrame) {
         this.parentController = parentController;
         this.parentFrame = parentJFrame;
@@ -48,7 +49,7 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         initComponents();
         setTitle("Thống kê phần quà");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
+        controller = new DanhSachHocSinhPanelController(tblHsPanel, hsLabel, searchHsTxt, namHocCb, ConfirmBtn_1, this);
         
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -84,7 +85,7 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         initComponents();
         setTitle("Danh sách đã lập");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new LapDanhSachChauNhoController();
+        controller = new DanhSachHocSinhPanelController();
         
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -164,38 +165,35 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         txtpnA.setFont(new Font("Arial", Font.BOLD, 14));
         txtpnA.setText("Tổng số lượng phần quà: 50 \nTổng giá trị: 5000000");
         
-        tablePanel_1 = new JPanel();
-        GroupLayout gl_tablePanel_1 = new GroupLayout(tablePanel_1);
-        gl_tablePanel_1.setHorizontalGroup(
-        	gl_tablePanel_1.createParallelGroup(Alignment.LEADING)
+        tblHsPanel = new JPanel();
+        GroupLayout gl_tblHsPanel = new GroupLayout(tblHsPanel);
+        gl_tblHsPanel.setHorizontalGroup(
+        	gl_tblHsPanel.createParallelGroup(Alignment.LEADING)
         		.addGap(0, 449, Short.MAX_VALUE)
         		.addGap(0, 449, Short.MAX_VALUE)
         );
-        gl_tablePanel_1.setVerticalGroup(
-        	gl_tablePanel_1.createParallelGroup(Alignment.LEADING)
+        gl_tblHsPanel.setVerticalGroup(
+        	gl_tblHsPanel.createParallelGroup(Alignment.LEADING)
         		.addGap(0, 425, Short.MAX_VALUE)
         		.addGap(0, 425, Short.MAX_VALUE)
         );
-        tablePanel_1.setLayout(gl_tablePanel_1);
+        tblHsPanel.setLayout(gl_tblHsPanel);
         
-        textField = new JTextField();
-        textField.setFont(new Font("Arial", Font.PLAIN, 14));
-        
-        lblNmHc = new JLabel();
-        lblNmHc.setText("Năm học:");
-        lblNmHc.setFont(new Font("Arial", Font.BOLD, 14));
+        namHocLb = new JLabel();
+        namHocLb.setText("Năm học:");
+        namHocLb.setFont(new Font("Arial", Font.BOLD, 14));
         
         ConfirmBtn_1 = new JButton();
         ConfirmBtn_1.setText("Thống kê");
         ConfirmBtn_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
         ConfirmBtn_1.setBackground(Color.WHITE);
         
-        txtpnA_1 = new JTextPane();
-        txtpnA_1.setText("Tổng số lượng phần quà: 10 \nTổng giá trị: 500000");
-        txtpnA_1.setFont(new Font("Arial", Font.BOLD, 14));
+        hsLabel = new JTextPane();
+        hsLabel.setText("Tổng số lượng phần quà: 10 \nTổng giá trị: 500000");
+        hsLabel.setFont(new Font("Arial", Font.BOLD, 14));
         
-        textField_1 = new JTextField();
-        textField_1.setFont(new Font("Arial", Font.PLAIN, 14));
+        searchHsTxt = new JTextField();
+        searchHsTxt.setFont(new Font("Arial", Font.PLAIN, 14));
         
         lblDanhSchQu = new JLabel();
         lblDanhSchQu.setText("Danh sách quà các hộ:");
@@ -205,11 +203,13 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         lblDanhSchQu_2.setText("Danh sách quà các cháu học sinh:");
         lblDanhSchQu_2.setFont(new Font("Arial", Font.BOLD, 14));
         
+        namHocCb = new JComboBox();
+        
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1Layout.setHorizontalGroup(
-        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        	jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
         			.addGap(28)
         			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
@@ -238,16 +238,16 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         					.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 497, GroupLayout.PREFERRED_SIZE)
         					.addGap(55)))
         			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        				.addComponent(tablePanel_1, GroupLayout.PREFERRED_SIZE, 513, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(tblHsPanel, GroupLayout.PREFERRED_SIZE, 513, GroupLayout.PREFERRED_SIZE)
         				.addGroup(jPanel1Layout.createSequentialGroup()
-        					.addComponent(lblNmHc, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(namHocLb, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
         					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))
+        					.addComponent(namHocCb, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE))
         				.addGroup(jPanel1Layout.createSequentialGroup()
         					.addComponent(ConfirmBtn_1, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
         					.addGap(34)
-        					.addComponent(txtpnA_1, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE))
-        				.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(hsLabel, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(searchHsTxt, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE)
         				.addComponent(lblDanhSchQu_2, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE))
         			.addGap(39))
         );
@@ -258,11 +258,11 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         				.addGroup(jPanel1Layout.createSequentialGroup()
         					.addGap(20)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
-        						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(searchHsTxt, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
         					.addGap(34)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
-        						.addComponent(tablePanel_1, 0, 0, Short.MAX_VALUE)
+        						.addComponent(tblHsPanel, 0, 0, Short.MAX_VALUE)
         						.addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
         					.addPreferredGap(ComponentPlacement.RELATED)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
@@ -270,14 +270,14 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         						.addComponent(SuKienJTF, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addComponent(lblSKin, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addComponent(GenderJcb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(lblNmHc, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+        						.addComponent(namHocLb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(namHocCb, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
         					.addPreferredGap(ComponentPlacement.UNRELATED)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         						.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
         						.addComponent(txtpnA, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
         						.addComponent(ConfirmBtn_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(txtpnA_1, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)))
+        						.addComponent(hsLabel, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)))
         				.addGroup(jPanel1Layout.createSequentialGroup()
         					.addGap(56)
         					.addComponent(lblDanhSchQu, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
@@ -306,13 +306,13 @@ public class ThongKePhanQua extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private JTextField textField_2;
-    private JPanel tablePanel_1;
-    private JTextField textField;
-    private JLabel lblNmHc;
+    private JPanel tblHsPanel;
+    private JLabel namHocLb;
     private JButton ConfirmBtn_1;
-    private JTextPane txtpnA_1;
-    private JTextField textField_1;
+    private JTextPane hsLabel;
+    private JTextField searchHsTxt;
     private JLabel lblDanhSchQu;
     private JLabel lblDanhSchQu_2;
+    private JComboBox namHocCb;
 }
 

@@ -3,6 +3,10 @@ package utility;
 import Bean.ChauNhoBean;
 import Bean.HoKhauBean;
 import Bean.HocSinhBean;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import models.GiaDinhModel;
@@ -120,6 +124,33 @@ public class ClassTableModel {
             obj[4] = item.getTraoQuaHsgModel().getTrangThai();
             dtm.addRow(obj);
         });
+        return dtm;
+    }
+    
+    public DefaultTableModel setTableThongKe(ArrayList<ArrayList<Object>> thongKe, String[] listColumn) {
+        final int columns = listColumn.length;
+        DefaultTableModel dtm = new DefaultTableModel()  {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return super.isCellEditable(row, column); //To change body of generated methods, choose Tools | Templates.
+            }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return columnIndex == 4 ? Boolean.class : String.class;
+            }
+        };
+        dtm.setColumnIdentifiers(listColumn);
+        Object[] obj;
+        obj = new Object[columns];
+       
+        for (ArrayList<Object> row : thongKe) {
+        	obj[0] = row.get(0);
+			obj[1] = row.get(1);
+		    obj[2] = row.get(2);
+			obj[3] = row.get(3);
+			dtm.addRow(obj);
+		}
+		
         return dtm;
     }
     

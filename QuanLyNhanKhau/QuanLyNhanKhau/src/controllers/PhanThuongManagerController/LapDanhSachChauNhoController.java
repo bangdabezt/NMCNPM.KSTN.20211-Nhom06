@@ -64,7 +64,9 @@ public class LapDanhSachChauNhoController {
         this.listChauNhoBean = this.chauNhoService.getListChauNho(Integer.parseInt(aAge.getText()), Integer.parseInt(bAge.getText()));
         initAction();
     }
-    
+    public LapDanhSachChauNhoController() {
+    	
+    }
     
     //
     public void initAction(){

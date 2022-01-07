@@ -211,11 +211,13 @@ public class HocSinhService {
     public String timPhuHuynh (HocSinhBean hocSinhBean) {
     	String tenPhuHuynh = null;
     	int idHoKhau = hocSinhBean.getThanhVienCuaHoModel().getIdHoKhau();
-    	String query = "SELECT hoTen FROM nhan_khau JOIN thanh_vien_cua_ho ON nhan_khau.ID = thanh_vien_cua_ho.idNhanKhau WHERE idHoKhau = " + idHoKhau 
-    			+" AND quanHeVoiChuHo = 'Chủ hộ'";
+    	String query = "SELECT nhan_khau.hoTen\n"
+    			+ "FROM ho_khau join nhan_khau on ho_khau.idChuHo = nhan_khau.ID\n"
+    			+ "WHERE ho_khau.ID = ? ";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idHoKhau);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
             	tenPhuHuynh = rs.getString("hoTen");
@@ -287,6 +289,20 @@ public class HocSinhService {
         } catch (Exception mysqlException) {
             this.exceptionHandle(mysqlException.getMessage());
         }
+    	query = "INSERT INTO danh_sach_nhan_qua_cac_nam "
+    			+ "VALUES(?, ?)";
+    	try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, hocSinhBean.getNhanKhauModel().getID());
+            preparedStatement.setString(2,hocSinhBean.getTraoQuaHsgModel().getNamHoc());
+            preparedStatement.executeUpdate();
+            //JOptionPane.showMessageDialog(null, "Trao quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception mysqlException) {
+            this.exceptionHandle(mysqlException.getMessage());
+        }
     }
     public ArrayList<Integer> laySoLuong(String namHoc) {
     	int soluonghs = 0, soluongmc = 0, soluongnq = 0;
@@ -345,4 +361,55 @@ public class HocSinhService {
 		res.add(soluongnq);
 		return res;
     }
+    
+    public ArrayList<String> getAllNamHoc(){
+    	ArrayList<String> namHocList = new ArrayList<String>();
+    	String query = "SELECT DISTINCT namHoc "
+    			+ "FROM danh_sach_nhan_qua_cac_nam";
+    	try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+            	namHocList.add(rs.getString("namHoc"));
+            }
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception mysqlException) {
+            this.exceptionHandle(mysqlException.getMessage());
+        }
+    	return namHocList;
+     }
+    
+    public ArrayList<ArrayList<Object>> getThongKe(String namHoc) {
+    	ArrayList<ArrayList<Object>> thongKe = new ArrayList<ArrayList<Object>>();
+
+    	String query = "SELECT ID, hoTen, trao_qua_hsg.thanhTich, ROUND(tongGiaTriMotSuat * soLuongSuatQua) AS giaTri, qua_hsg.soLuongSuatQua\n"
+    	 		+ "FROM danh_sach_nhan_qua_cac_nam JOIN trao_qua_hsg ON (danh_sach_nhan_qua_cac_nam.idNhanKhau = trao_qua_hsg.idNhanKhau AND danh_sach_nhan_qua_cac_nam.namHoc = trao_qua_hsg.namHoc) \n"
+    	 		+ "JOIN qua_hsg ON (trao_qua_hsg.thanhTich = qua_hsg.thanhTich AND danh_sach_nhan_qua_cac_nam.namHoc = qua_hsg.namHoc)\n"
+    	 		+ "JOIN nam_hoc ON nam_hoc.namHoc = danh_sach_nhan_qua_cac_nam.namHoc\n"
+    	 		+ "JOIN nhan_khau ON danh_sach_nhan_qua_cac_nam.idNhanKhau = nhan_khau.ID\n"
+    	 		+ "WHERE danh_sach_nhan_qua_cac_nam.namHoc = ? ";
+     			
+     	try {
+             Connection connection = MysqlConnection.getMysqlConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             preparedStatement.setString(1, namHoc);
+             ResultSet rs = preparedStatement.executeQuery();
+             while(rs.next()) {
+            	ArrayList<Object> row = new ArrayList<Object>();
+ 			    row.add(rs.getString("ID"));
+ 			    row.add(rs.getString("hoTen"));
+ 			    row.add(rs.getString("thanhTich"));
+ 			    row.add(rs.getFloat("giaTri"));
+ 			    row.add(rs.getInt("soLuongSuatQua"));
+ 			    thongKe.add(row);
+ 			}
+             preparedStatement.close();
+             connection.close();
+         } catch (Exception mysqlException) {
+             this.exceptionHandle(mysqlException.getMessage());
+         }
+     	return thongKe;
+     }
 }
