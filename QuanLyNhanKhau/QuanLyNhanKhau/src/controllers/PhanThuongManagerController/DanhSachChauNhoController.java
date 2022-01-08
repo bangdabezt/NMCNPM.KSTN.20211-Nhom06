@@ -43,6 +43,7 @@ public class DanhSachChauNhoController {
     private JTextPane thongTin;
     private List<LeTetModel> listLeTetModel;
     private JTable table;
+    private int thongKe = 0;
     private final TraoQuaHoKhauService traoQuaHoKhauService = new TraoQuaHoKhauService();
     private final TableModelHoKhau tableModelHoKhau = new TableModelHoKhau();
     private final String COLUNMS[] = {"Mã hộ khẩu", "Chủ hộ", "Địa chỉ", "Suất", "Tổng giá trị(đồng)", "Tình trạng quà"}; 
@@ -59,6 +60,22 @@ public class DanhSachChauNhoController {
         initAction();
         this.setComboBoxNam();
         this.setComboBoxSuKien();
+        this.list = traoQuaHoKhauService.getListTraoQuaHoKhau(listLeTetModel.get(cbSuKien.getSelectedIndex()));
+        setData();
+    }
+    public DanhSachChauNhoController(JFrame parentJFrame, JComboBox cbNam, JComboBox cbSuKien, JTextField textField_2, JPanel tablePanel,
+			JTextPane thongTin, int i) {
+        this.searchJtf = textField_2;
+        this.tableJpn = tablePanel;
+        this.thongTin = thongTin;
+        this.cbNam = cbNam;
+        this.cbSuKien = cbSuKien;
+        this.parentJFrame = parentJFrame;
+        this.thongKe = 1;
+        initAction();
+        this.setComboBoxNam();
+        this.setComboBoxSuKien();
+        
         this.list = traoQuaHoKhauService.getListTraoQuaHoKhau(listLeTetModel.get(cbSuKien.getSelectedIndex()));
         setData();
     }
@@ -94,7 +111,8 @@ public class DanhSachChauNhoController {
         			searchJtf.setText("");
         			list = traoQuaHoKhauService.getListTraoQuaHoKhau(listLeTetModel.get(cbSuKien.getSelectedIndex()));
         			setData();
-        			thongTin.setText(traoQuaHoKhauService.getThongTinText(listLeTetModel.get(cbSuKien.getSelectedIndex())));
+        			if(thongKe == 1) thongTin.setText(traoQuaHoKhauService.getThongTinThongKeText(listLeTetModel.get(cbSuKien.getSelectedIndex())));
+        			else thongTin.setText(traoQuaHoKhauService.getThongTinText(listLeTetModel.get(cbSuKien.getSelectedIndex())));
         		}
         	}
 
@@ -196,7 +214,8 @@ public class DanhSachChauNhoController {
                 list = traoQuaHoKhauService.search(key, listLeTetModel.get(cbSuKien.getSelectedIndex()));
             }
             setData();
-			thongTin.setText(traoQuaHoKhauService.getThongTinText(listLeTetModel.get(cbSuKien.getSelectedIndex())));
+			if(this.thongKe == 1) thongTin.setText(traoQuaHoKhauService.getThongTinThongKeText(listLeTetModel.get(cbSuKien.getSelectedIndex())));
+			else thongTin.setText(traoQuaHoKhauService.getThongTinText(listLeTetModel.get(cbSuKien.getSelectedIndex())));
 		}
 
     }

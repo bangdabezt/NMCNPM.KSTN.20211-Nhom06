@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
@@ -63,7 +65,6 @@ public class DanhSachHocSinhPanelController {
     private JTable table;
     private JComboBox namHocCb;
     private JTextPane hsLabel;
-    private JButton thongkeBtn;
     private ArrayList<ArrayList<Object>> thongKe;
     
     public DanhSachHocSinhPanelController(JPanel jpnView, JTextField jtfSearch) {
@@ -91,35 +92,41 @@ public class DanhSachHocSinhPanelController {
         initAction();
     }
 	
-	public DanhSachHocSinhPanelController(JPanel jpnView, JTextPane hsLabel, JTextField jtfSearch, JComboBox namHocCb, JButton thongkeBtn, JFrame parentFrame) {
+	public DanhSachHocSinhPanelController(JPanel jpnView, JTextPane hsLabel, JTextField jtfSearch, JComboBox namHocCb, JFrame parentFrame) {
         this.jpnView = jpnView;
         this.jtfSearch = jtfSearch;
         this.namHocCb = namHocCb;
         classTableModel = new ClassTableModel();
         this.hocSinhService = new HocSinhService();
         this.listHocSinhBeans = this.hocSinhService.getListHocSinh();
-        this.thongkeBtn = thongkeBtn;
         this.hsLabel = hsLabel;
         this.parentJFrame = parentFrame;
         initAction();
+        String namHoc = (String) namHocCb.getSelectedItem();
+    	setDataTableThongKe(namHoc);
+    	setTextThongKe();
     }
 	
     public DanhSachHocSinhPanelController() {
     }
     
     public void initAction(){
+    	
+        this.namHocCb.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		if(namHocCb.getSelectedIndex() >= 0) {
+        			String namHoc = (String) namHocCb.getSelectedItem();
+        	    	setDataTableThongKe(namHoc);
+        	    	setTextThongKe();
+        		}
+        	}
+
+        });
     	if (namHocCb!=null) {
     		ArrayList<String> namHocList = hocSinhService.getAllNamHoc();
     		String [] namHocArr = namHocList.toArray(new String[namHocList.size()]);
     		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(namHocArr);
     		namHocCb.setModel(model);
-    	}
-    	if (thongkeBtn!=null) {
-    		thongkeBtn.addActionListener(new ActionListener() {
-    			public void actionPerformed(ActionEvent e) {
-    				thongkeBtnActionPerformed(e);
-    			}
-    		});
     	}
     	
     	if (traoQuaBtn!=null)

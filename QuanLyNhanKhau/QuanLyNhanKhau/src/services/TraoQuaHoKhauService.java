@@ -301,6 +301,28 @@ public class TraoQuaHoKhauService {
 					+ "\r\nCó " + soHoNhanQua + "/" + soHo + " hộ gia đình trong diện trao quà \r\nCó " + soHoDaNhanQua + "/" + soHoNhanQua + " hộ đã nhận quà";
 		return res;
 	}
+	public String getThongTinThongKeText(LeTetModel leTetModel) {
+		double tongGiaTri = 0;
+		int soLuongQua = 0;
+		try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            String query = "SELECT sum(soLuongQua) as soLuongQua, sum(soLuongQua * tongGiaTriMotSuat) as tongTien\r\n"
+            		+ " from trao_qua_le_tet join le_tet on le_tet.idSuKien = trao_qua_le_tet.idSuKien where trao_qua_le_tet.idSuKien = " + leTetModel.getIdSuKien();
+            PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+            	soLuongQua = rs.getInt("soLuongQua");
+            	tongGiaTri= rs.getDouble("tongTien");
+            	break;
+            }
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+		String res = "Tổng số lượng phần quà: "+ soLuongQua +"\r\nTổng giá trị: " + tongGiaTri + " VNĐ";
+		return res;
+	}
 	public void traoQua(TraoQuaHoKhauBean traoQuaHoKhau , Date date) {
 		try {
             Connection connection = MysqlConnection.getMysqlConnection();

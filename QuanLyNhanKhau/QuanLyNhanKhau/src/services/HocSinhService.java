@@ -368,7 +368,7 @@ public class HocSinhService {
     public ArrayList<String> getAllNamHoc(){
     	ArrayList<String> namHocList = new ArrayList<String>();
     	String query = "SELECT DISTINCT namHoc "
-    			+ "FROM danh_sach_nhan_qua_cac_nam";
+    			+ "FROM danh_sach_nhan_qua_cac_nam order by namHoc desc";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
