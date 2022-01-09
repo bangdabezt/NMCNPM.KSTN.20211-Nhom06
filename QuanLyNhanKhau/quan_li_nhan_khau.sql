@@ -252,7 +252,7 @@ INSERT INTO `le_tet` (`idSuKien`, `thoiGian`, `tenSuKien`, `motSuatQua`, `tongGi
 --
 
 CREATE TABLE `lich_su_thay_doink` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `idHoKhauMoi` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `idNhanKhau` int(11) NOT NULL,
   `suKien` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
