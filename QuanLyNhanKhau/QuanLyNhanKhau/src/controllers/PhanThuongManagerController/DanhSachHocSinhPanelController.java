@@ -112,21 +112,22 @@ public class DanhSachHocSinhPanelController {
     
     public void initAction(){
     	
-        this.namHocCb.addItemListener(new ItemListener() {
-        	public void itemStateChanged(ItemEvent e) {
-        		if(namHocCb.getSelectedIndex() >= 0) {
-        			String namHoc = (String) namHocCb.getSelectedItem();
-        	    	setDataTableThongKe(namHoc);
-        	    	setTextThongKe();
-        		}
-        	}
-
-        });
+        
     	if (namHocCb!=null) {
     		ArrayList<String> namHocList = hocSinhService.getAllNamHoc();
     		String [] namHocArr = namHocList.toArray(new String[namHocList.size()]);
     		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(namHocArr);
     		namHocCb.setModel(model);
+    		this.namHocCb.addItemListener(new ItemListener() {
+            	public void itemStateChanged(ItemEvent e) {
+            		if(namHocCb.getSelectedIndex() >= 0) {
+            			String namHoc = (String) namHocCb.getSelectedItem();
+            	    	setDataTableThongKe(namHoc);
+            	    	setTextThongKe();
+            		}
+            	}
+
+            });
     	}
     	
     	if (traoQuaBtn!=null)
@@ -325,8 +326,8 @@ public class DanhSachHocSinhPanelController {
     		soluongqua += (int)row.get(4);
     		tonggt += (float)row.get(3);
     	}
-    	hsLabel.setText("Tổng số lượng phần quà: "+ soluongqua + 
-    			"\nTổng giá trị: " + tonggt + " VND");
+    	hsLabel.setText("Tổng số lượng phần quà: "+ (long)soluongqua + 
+    			"\nTổng giá trị: " + (long) tonggt + " VND");
     }
     
     public void setText() {

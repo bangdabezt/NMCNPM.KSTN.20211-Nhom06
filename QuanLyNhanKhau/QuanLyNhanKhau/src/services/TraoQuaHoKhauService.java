@@ -320,7 +320,7 @@ public class TraoQuaHoKhauService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-		String res = "Tổng số lượng phần quà: "+ soLuongQua +"\r\nTổng giá trị: " + tongGiaTri + " VNĐ";
+		String res = "Tổng số lượng phần quà: "+ (long)soLuongQua +"\r\nTổng giá trị: " + (long)tongGiaTri + " VNĐ";
 		return res;
 	}
 	public void traoQua(TraoQuaHoKhauBean traoQuaHoKhau , Date date) {
