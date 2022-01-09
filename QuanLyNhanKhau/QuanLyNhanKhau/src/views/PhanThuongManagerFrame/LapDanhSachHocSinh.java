@@ -3,7 +3,7 @@ package views.PhanThuongManagerFrame;
 import Bean.HocSinhBean;
 import controllers.LoginController;
 import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
-import controllers.PhanThuongManagerController.DanhSachHocSinhPanelController;
+import controllers.PhanThuongManagerController.DanhSachHocSinhController;
 import controllers.PhanThuongPanelController;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -33,7 +33,7 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
     private PhanThuongPanelController parentController;
     private JFrame parentFrame;
     private HocSinhBean hocSinhBean;
-    private DanhSachHocSinhPanelController controller;
+    private DanhSachHocSinhController controller;
     private HocSinhService hocSinhService = new HocSinhService();
 
     public LapDanhSachHocSinh(PhanThuongPanelController parentController, JFrame parentJFrame) {
@@ -44,7 +44,7 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         initComponents();
         setTitle("Lập danh sách phát quà");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new DanhSachHocSinhPanelController(tablePanel,txtId);
+        controller = new DanhSachHocSinhController(tablePanel,txtId);
         controller.setParentJFrame(parentFrame);
         controller.setDataTable();
         
@@ -68,7 +68,6 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
             public void refreshData() {
                 // do nothing
             }
-
             @Override
             public void initAction() {
                 // do nothing
@@ -82,7 +81,7 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         initComponents();
         setTitle("Lập danh sách phát quà");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new DanhSachHocSinhPanelController(tablePanel,txtId);
+        controller = new DanhSachHocSinhController(tablePanel,txtId);
         controller.setParentJFrame(parentFrame);
         controller.setDataTable();
         

@@ -14,6 +14,7 @@ import models.LeTetModel;
 import models.NhanKhauModel;
 import models.TieuSuModel;
 import models.ThanhVienCuaHoModel;
+import models.LichSuThayDoiNhanKhauModel;
 
 /**
  *
@@ -253,4 +254,36 @@ public class ClassTableModel {
         });
         return dtm;
     }
+
+    
+    /*
+     * Nguyen Trong Bang
+     * lay lich su thay doi nhan khau
+     * */
+    public DefaultTableModel setTableLichSuThayDoiNK(List<LichSuThayDoiNhanKhauModel> listItem, String[] listColumn) {
+        final int columns = listColumn.length;
+        DefaultTableModel dtm = new DefaultTableModel()  {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return super.isCellEditable(row, column); //To change body of generated methods, choose Tools | Templates.
+            }
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return columnIndex == 5 ? Boolean.class : String.class;
+            }
+        };
+        dtm.setColumnIdentifiers(listColumn);
+        Object[] obj;
+        obj = new Object[columns];
+        listItem.forEach((LichSuThayDoiNhanKhauModel item) -> {
+            obj[0] = item.getID();
+            obj[1] = item.getIdHoKhauMoi();
+            obj[2] = item.getIdNhanKhau();
+            obj[3] = item.getSuKien();
+            obj[4] = item.getNgay();
+            dtm.addRow(obj);
+        });
+        return dtm;
+    }
+    
 }

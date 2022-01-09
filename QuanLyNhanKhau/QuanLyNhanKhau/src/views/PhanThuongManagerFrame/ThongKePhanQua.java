@@ -3,7 +3,7 @@ package views.PhanThuongManagerFrame;
 import Bean.NhanKhauBean;
 import controllers.LoginController;
 import controllers.PhanThuongManagerController.DanhSachChauNhoController;
-import controllers.PhanThuongManagerController.DanhSachHocSinhPanelController;
+import controllers.PhanThuongManagerController.DanhSachHocSinhController;
 import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
 import controllers.PhanThuongPanelController;
 import java.awt.event.WindowAdapter;
@@ -39,7 +39,7 @@ public class ThongKePhanQua extends javax.swing.JFrame {
     private PhanThuongPanelController parentController;
     private JFrame parentFrame;
     private NhanKhauBean nhanKhauBean;
-    private DanhSachHocSinhPanelController controller;
+    private DanhSachHocSinhController controller;
     private DanhSachChauNhoController chauNhoController;
     
     //JPanel jpnView, JTextField jtfSearch, JComboBox namHocCb, JButton thongkeBtn, JFrame parentFrame
@@ -51,7 +51,7 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         initComponents();
         setTitle("Thống kê phần quà");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new DanhSachHocSinhPanelController(tblHsPanel, hsLabel, searchHsTxt, namHocCb, this);
+        controller = new DanhSachHocSinhController(tblHsPanel, hsLabel, searchHsTxt, namHocCb, this);
         chauNhoController = new DanhSachChauNhoController(this, comboBox, GenderJcb, textField_2, tablePanel, txtpnA, 1);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -73,7 +73,6 @@ public class ThongKePhanQua extends javax.swing.JFrame {
             public void refreshData() {
                 // do nothing
             }
-
             @Override
             public void initAction() {
                 // do nothing
@@ -87,7 +86,7 @@ public class ThongKePhanQua extends javax.swing.JFrame {
         initComponents();
         setTitle("Danh sách đã lập");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new DanhSachHocSinhPanelController();
+        controller = new DanhSachHocSinhController();
         
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -297,4 +296,3 @@ public class ThongKePhanQua extends javax.swing.JFrame {
     private JPanel tablePanel;
     private JTextPane txtpnA;
 }
-

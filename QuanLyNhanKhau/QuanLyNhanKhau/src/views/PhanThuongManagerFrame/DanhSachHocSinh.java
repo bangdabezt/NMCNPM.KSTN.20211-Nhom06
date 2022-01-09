@@ -2,7 +2,7 @@ package views.PhanThuongManagerFrame;
 
 import Bean.NhanKhauBean;
 import controllers.LoginController;
-import controllers.PhanThuongManagerController.DanhSachHocSinhPanelController;
+import controllers.PhanThuongManagerController.DanhSachHocSinhController;
 import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
 import controllers.PhanThuongPanelController;
 import java.awt.event.WindowAdapter;
@@ -38,7 +38,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
     private PhanThuongPanelController parentController;
     private JFrame parentFrame;
     private NhanKhauBean nhanKhauBean;
-    private DanhSachHocSinhPanelController controller;
+    private DanhSachHocSinhController controller;
 
 
     public DanhSachHocSinh(PhanThuongPanelController parentController, JFrame parentJFrame) {
@@ -49,7 +49,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         initComponents();
         setTitle("Danh sách đã lập");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new DanhSachHocSinhPanelController(tablePanel, textField_2, SuKienJTF, btnSaPhnQu_1, btnSaPhnQu, btnTraoQua, ngayTrao, txtpnA, this);
+        controller = new DanhSachHocSinhController(tablePanel, textField_2, SuKienJTF, btnSaPhnQu_1, btnSaPhnQu, btnTraoQua, ngayTrao, txtpnA, this);
         controller.setParentJFrame(parentFrame);
         controller.setDataTableTraoQua();
         controller.setText();
@@ -74,7 +74,6 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
             public void refreshData() {
                 // do nothing
             }
-
             @Override
             public void initAction() {
                 // do nothing
@@ -88,7 +87,7 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         initComponents();
         setTitle("Danh sách đã lập");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        controller = new DanhSachHocSinhPanelController(tablePanel, textField_2, SuKienJTF, btnSaPhnQu_1, btnSaPhnQu, btnTraoQua, ngayTrao, txtpnA, this);
+        controller = new DanhSachHocSinhController(tablePanel, textField_2, SuKienJTF, btnSaPhnQu_1, btnSaPhnQu, btnTraoQua, ngayTrao, txtpnA, this);
         controller.setParentJFrame(parentFrame);
         controller.setDataTableTraoQua();
         controller.setText();

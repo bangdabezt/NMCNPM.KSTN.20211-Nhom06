@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,7 +30,7 @@ import views.infoViews.InfoJframe;
  * @author Hai
  */
 public class NhanKhauManagerPanelController {
-    
+    private JButton btn;
     private JPanel jpnView;
     private JTextField jtfSearch;
     private NhanKhauService nhanKhauService;
@@ -36,10 +38,11 @@ public class NhanKhauManagerPanelController {
     private ClassTableModel classTableModel = null;
     private final String[] COLUMNS = {"ID", "Họ tên", "Ngày sinh", "Giới tính", "Địa chỉ hiện tại"};
     private JFrame parentJFrame;
-
-    public NhanKhauManagerPanelController(JPanel jpnView, JTextField jtfSearch) {
+    private NhanKhauBean temp;
+    public NhanKhauManagerPanelController(JPanel jpnView, JTextField jtfSearch, JButton btn) {
         this.jpnView = jpnView;
         this.jtfSearch = jtfSearch;
+        this.btn = btn;
         classTableModel = new ClassTableModel();
         this.nhanKhauService = new NhanKhauService();
         this.listNhanKhauBeans = this.nhanKhauService.getListNhanKhau();
@@ -106,11 +109,14 @@ public class NhanKhauManagerPanelController {
             public void mouseClicked(MouseEvent e) {
 //                JOptionPane.showConfirmDialog(null, table.getSelectedRow());
                 if (e.getClickCount() > 1) {
-                    NhanKhauBean temp = listNhanKhauBeans.get(table.getSelectedRow());
+                    temp = listNhanKhauBeans.get(table.getSelectedRow());
                     NhanKhauBean info = nhanKhauService.getNhanKhau(temp.getChungMinhThuModel().getSoCMT());
                     InfoJframe infoJframe = new InfoJframe(info.toString(), parentJFrame);
                     infoJframe.setLocationRelativeTo(null);
                     infoJframe.setVisible(true);
+                } else if(e.getClickCount() == 1){
+                		btn.setEnabled(true);              		
+                		temp = listNhanKhauBeans.get(table.getSelectedRow());
                 }
             }
             
@@ -150,5 +156,8 @@ public class NhanKhauManagerPanelController {
         this.jtfSearch = jtfSearch;
     }
     
-    
+    public NhanKhauBean getInfo() {
+    	NhanKhauBean info = nhanKhauService.getNhanKhau(temp.getChungMinhThuModel().getSoCMT());
+    	return info;
+    }
 }

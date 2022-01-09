@@ -8,6 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
 import java.util.List;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,6 +27,7 @@ import views.infoViews.InfoJframe;
  * @author Hai
  */
 public class HoKhauPanelController {
+	private JButton btn;
     private List<HoKhauBean> list;
     private JTextField searchJtf;
     private JPanel tableJpn;
@@ -32,10 +35,12 @@ public class HoKhauPanelController {
     private final TableModelHoKhau tableModelHoKhau = new TableModelHoKhau();
     private final String COLUNMS[] = {"Mã hộ khẩu", "Họ tên chủ hộ", "Địa chỉ"}; 
     private JFrame parentJFrame;
+    private HoKhauBean temp;
 
-    public HoKhauPanelController(JTextField searchJtf, JPanel tableJpn) {
+    public HoKhauPanelController(JTextField searchJtf, JPanel tableJpn, JButton btn) {
         this.searchJtf = searchJtf;
         this.tableJpn = tableJpn;
+        this.btn = btn;
         this.list = hoKhauService.getListHoKhau();
         setData();
         initAction();
@@ -98,10 +103,13 @@ public class HoKhauPanelController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() > 1) {
-                    HoKhauBean temp = list.get(table.getSelectedRow());
+                    temp = list.get(table.getSelectedRow());
                     InfoJframe infoJframe = new InfoJframe(temp.toString(), parentJFrame);
                     infoJframe.setLocationRelativeTo(null);
                     infoJframe.setVisible(true);
+                } else if(e.getClickCount() == 1) {
+                	btn.setEnabled(true);
+                	temp = list.get(table.getSelectedRow());
                 }
             }
             
@@ -144,4 +152,12 @@ public class HoKhauPanelController {
         this.tableJpn = tableJpn;
     }
     
+    public HoKhauBean getInfo() {
+    	return temp;
+    }
+    
+    public void refreshData() {
+        this.list = this.hoKhauService.getListHoKhau();
+        setData();
+    }
 }

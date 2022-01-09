@@ -12,7 +12,7 @@ import models.TieuSuModel;
  * @author Hai
  */
 public class NhanKhauBean {
-    private NhanKhauModel nhanKhauModel;
+	private NhanKhauModel nhanKhauModel;
     private ChungMinhThuModel chungMinhThuModel;
     private List<TieuSuModel> listTieuSuModels;
     private List<GiaDinhModel> listGiaDinhModels;
@@ -132,5 +132,37 @@ public class NhanKhauBean {
         res +=  "</table>"
                 + "</div></html>";
         return res;
+    }
+    
+    /*
+     * Nguyen Trong Bang
+     * */
+    public String toText() {
+    	String res = "";
+    	res =  "<html><style>p {padding: 5px; margin-left: 20px} table, th, td {border: 1px solid black; border-collapse: collapse;} table {width: 500px}</style> <div>"
+                + "<h3>Thông tin cơ bảnThông tin cơ bản:"
+                + "<p>Họ tên: <b>" + nhanKhauModel.getHoTen() + "</p>"
+                + "<p>Mã nhân khẩu: <b>" + (nhanKhauModel.getMaNhanKhau() == null ?"":nhanKhauModel.getMaNhanKhau()) + "</p>"
+                + "<p>Số CCCD: <b>" + chungMinhThuModel.getSoCMT()+ "</p>"
+                + "<p>Biệt danh: <b>" + (nhanKhauModel.getBietDanh()== null ?"":nhanKhauModel.getBietDanh()) + "</p>"
+                + "<p>Năm sinh: <b>" + nhanKhauModel.getNamSinh() + "</p>"
+                + "<p>Giới tính: <b>" + nhanKhauModel.getGioiTinh() + "</p>"
+                + "<p>Nơi sinh: <b>" + (nhanKhauModel.getNoiSinh()== null ?"":nhanKhauModel.getNoiSinh()) + "</p>"
+                + "<p>Nguyên quán: <b>" + (nhanKhauModel.getNguyenQuan()== null ?"":nhanKhauModel.getNguyenQuan())+ "</p>"
+                + "<p>Dân tộc: <b>" + nhanKhauModel.getDanToc()+ "</p>"
+                + "<p>Tôn giáo: <b>" + nhanKhauModel.getTonGiao()+ "</p>"
+                + "<p>Quốc tịch: <b>" + nhanKhauModel.getQuocTich()+ "</p>"
+                + "<p>Hộ chiếu: <b>" + (nhanKhauModel.getSoHoChieu()== null ?"":nhanKhauModel.getSoHoChieu()) + "</p>"
+                + "<p>Nơi thường trú: <b>" + nhanKhauModel.getNoiThuongTru() + "</p>"
+                + "<p>Địa chỉ hiện nay: <b>" + nhanKhauModel.getDiaChiHienNay() + "</p>"
+                + "<p>Học vấn: <b>" + nhanKhauModel.getTrinhDoHocVan() + "</p>"
+                + "<p>Chuyên môn: <b>" + nhanKhauModel.getTrinhDoChuyenMon() + "</p>"
+                + "<p>Nghề nghiệp: <b>" + nhanKhauModel.getNgheNghiep() + "</p>"
+                + "<p>Nơi làm việc: <b>" + nhanKhauModel.getNoiLamViec() + "</p>"
+                + "<p>Tiền án: <b>" + (nhanKhauModel.getTienAn()== null ?"":nhanKhauModel.getTienAn()) + "</p>"
+                
+                ;
+        
+    	return res;
     }
 }

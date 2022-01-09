@@ -296,4 +296,3 @@ public class DanhSachChauNhoController {
         this.tableJpn = tableJpn;
     }
 }
-    

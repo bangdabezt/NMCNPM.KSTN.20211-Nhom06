@@ -3,6 +3,7 @@ package views.HoKhauManagerFrame;
 import Bean.HoKhauBean;
 import Bean.MemOfFamily;
 import Bean.NhanKhauBean;
+import controllers.HoKhauPanelController;
 import controllers.HoKhauManagerController.ThemMoiController;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import models.ThanhVienCuaHoModel;
+import services.NhanKhauService;
 
 /**
  *
@@ -23,14 +25,17 @@ public class ThemMoiHoKhau extends javax.swing.JFrame {
     private final List<MemOfFamily> list = new ArrayList<>();
     private final ThemMoiController controller = new ThemMoiController();
     private final HoKhauBean hoKhauBean = new HoKhauBean();
+    private HoKhauPanelController parentController;
     
     /**
      * Creates new form ThemMoiHoKhau
      * @param parentJFrame
      */
-    public ThemMoiHoKhau(JFrame parentJFrame) {
+    public ThemMoiHoKhau(JFrame parentJFrame, HoKhauPanelController parentController) {
+    	
         initComponents();
         this.parentJFrame = parentJFrame;
+        this.parentController = parentController;
         parentJFrame.setEnabled(false);
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -42,6 +47,7 @@ public class ThemMoiHoKhau extends javax.swing.JFrame {
         });
         //setDataChuHo();
         setDataThanhVien();
+        setTitle("Thêm mới hộ khẩu");
     }
     
     private void close() {
@@ -129,7 +135,7 @@ public class ThemMoiHoKhau extends javax.swing.JFrame {
         jLabel4.setText("(*)");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel5.setText("Xác nhận:");
+        jLabel5.setText("Địa chỉ:");
 
         diaChiJtf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         diaChiJtf.addActionListener(new java.awt.event.ActionListener() {
@@ -399,8 +405,7 @@ public class ThemMoiHoKhau extends javax.swing.JFrame {
         if (this.maHoKhauJtf.getText().trim().isEmpty() 
                 || this.maKhuVucJtf.getText().trim().isEmpty()
                 || this.diaChiJtf.getText().trim().isEmpty()
-                || this.chuHo.getNhanKhauModel().getHoTen() == null
-                || this.list.isEmpty()) {
+                || this.chuHo.getNhanKhauModel().getHoTen() == null) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập hết các trường bắt buộc!", "Warning", JOptionPane.ERROR_MESSAGE);
         } else {
             this.hoKhauBean.setChuHo(chuHo.getNhanKhauModel());
@@ -415,7 +420,9 @@ public class ThemMoiHoKhau extends javax.swing.JFrame {
             this.hoKhauBean.getHoKhauModel().setDiaChi(diaChiJtf.getText().trim());
             try {
                 this.controller.addNew(hoKhauBean);
+                JOptionPane.showMessageDialog(null, "Thêm thành công!");
                 this.parentJFrame.setEnabled(true);
+                parentController.refreshData();
                 dispose();
             } catch (Exception e) {
                 System.out.println(e.getMessage());

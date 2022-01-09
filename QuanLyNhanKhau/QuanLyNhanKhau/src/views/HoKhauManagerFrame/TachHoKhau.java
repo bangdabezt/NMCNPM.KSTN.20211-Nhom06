@@ -5,6 +5,7 @@
  */
 package views.HoKhauManagerFrame;
 
+import controllers.HoKhauPanelController;
 import controllers.HoKhauManagerController.TachHoKhauController;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -18,15 +19,17 @@ import javax.swing.JOptionPane;
 public class TachHoKhau extends javax.swing.JFrame {
 
     private TachHoKhauController controller;
+//    private HoKhauPanelController parentController;
     private JFrame parentJFrame;
     /**
      * Creates new form TachHoKhau
      * @param parentJFrame
      */
-    public TachHoKhau(JFrame parentJFrame) {
+    public TachHoKhau(JFrame parentJFrame, HoKhauPanelController parentController) {
         initComponents();
         this.parentJFrame = parentJFrame;
-        controller = new TachHoKhauController(this);
+//        this.parentController = parentController;
+        controller = new TachHoKhauController(this, parentController);
         controller.setAcceptBtn(acceptBtn);
         controller.setAddBtn(addBtn);
         controller.setCancelBtn(cancelBtn);

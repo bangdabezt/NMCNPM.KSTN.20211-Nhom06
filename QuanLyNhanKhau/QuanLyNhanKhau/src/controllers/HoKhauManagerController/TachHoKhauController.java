@@ -3,6 +3,8 @@ package controllers.HoKhauManagerController;
 import Bean.HoKhauBean;
 import Bean.MemOfFamily;
 import Bean.NhanKhauBean;
+import controllers.HoKhauPanelController;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -59,9 +61,11 @@ public class TachHoKhauController {
     private MemOfFamily thanhVienSeclected;
     private MemOfFamily thanhVienHoMoiSeclected;
     private final HoKhauBean hoKhauMoi = new HoKhauBean();
+    private HoKhauPanelController parentController;
     
-    public TachHoKhauController(JFrame tachHoKhauJFrame) {
+    public TachHoKhauController(JFrame tachHoKhauJFrame, HoKhauPanelController parentController) {
         this.tachHoKhauJFrame = tachHoKhauJFrame;
+        this.parentController = parentController;
     }
     
     public void init() {
@@ -118,7 +122,7 @@ public class TachHoKhauController {
                     } else {
                         String quanHeVoiChuHo = "";
                         while (quanHeVoiChuHo.trim().isEmpty()) {                        
-                            quanHeVoiChuHo = JOptionPane.showInputDialog(null, "Nhập quan hệ với chủ hộ: ", thanhVienSeclected.getNhanKhau().getNhanKhauModel().getHoTen(), 0);
+                            quanHeVoiChuHo = JOptionPane.showInputDialog(null, "Nhập quan hệ với chủ hộ (nhập \"Chủ hộ\" nếu là chủ hộ mới) : ", thanhVienSeclected.getNhanKhau().getNhanKhauModel().getHoTen(), 1);
                         }
                         if (quanHeVoiChuHo.equalsIgnoreCase("Chủ hộ")) {
                             chuHoMoiJtf.setText(thanhVienSeclected.getNhanKhau().getNhanKhauModel().getHoTen());
@@ -167,7 +171,8 @@ public class TachHoKhauController {
                     hoKhauMoi.getHoKhauModel().setDiaChi(diaChiJtf.getText().trim());
                     hoKhauMoi.getHoKhauModel().setMaHoKhau( maHoKhauMoiJtf.getText().trim());
                     hoKhauMoi.getHoKhauModel().setMaKhuVuc(maKhuVucJtf.getText().trim());
-                    hoKhauService.tachHoKhau(hoKhauMoi);
+                    hoKhauService.tachHoKhau(hoKhauMoi, hoKhauSelected);
+                    parentController.refreshData();
                     TachHoKhau tachHoKhau = (TachHoKhau)tachHoKhauJFrame;
                     tachHoKhau.getParentJFrame().setEnabled(true);
                     tachHoKhau.dispose();

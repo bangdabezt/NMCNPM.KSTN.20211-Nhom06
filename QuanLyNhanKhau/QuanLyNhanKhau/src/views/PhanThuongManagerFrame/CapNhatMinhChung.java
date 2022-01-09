@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Bean.HocSinhBean;
-import controllers.PhanThuongManagerController.DanhSachHocSinhPanelController;
+import controllers.PhanThuongManagerController.DanhSachHocSinhController;
 import services.HocSinhService;
 
 import javax.swing.JLabel;
@@ -43,11 +43,11 @@ public class CapNhatMinhChung extends JFrame {
 	private String namHoc;
 	private String loaiHS;
 	private String path = null;
-	private DanhSachHocSinhPanelController controller;
+	private DanhSachHocSinhController controller;
 	/**
 	 * Launch the application.
 	 */
-	public CapNhatMinhChung(JFrame parentJFrame, HocSinhBean hocSinhBean, String namHoc, DanhSachHocSinhPanelController controller) {
+	public CapNhatMinhChung(JFrame parentJFrame, HocSinhBean hocSinhBean, String namHoc, DanhSachHocSinhController controller) {
 		this.hocSinhBean = hocSinhBean;
 		initComponents();
 		this.parentFrame = parentJFrame;

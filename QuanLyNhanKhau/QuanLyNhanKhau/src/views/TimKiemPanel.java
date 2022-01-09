@@ -17,6 +17,14 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import com.toedter.calendar.JDateChooser;
+
+import controllers.HoKhauPanelController;
+import views.HoKhauManagerFrame.TachHoKhau;
+import views.TimKiemManagerFrame.*;
+import controllers.TimKiemPanelController;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -24,16 +32,26 @@ import java.awt.event.ActionEvent;
  */
 public class TimKiemPanel extends javax.swing.JPanel {
     private JFrame parentFrame;
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
-    private JTextField textField_3;
+    private TimKiemPanelController controller;
+    private JTextField tieuChi1_text;
+    private JTextField tieuChi2_text;
+    private JTextField tieuChi3_text;
+    private javax.swing.JPanel tableJpn;
+    private JTextField jtfSearch;
+    private JComboBox<String> tc1Jcb;
+    private JComboBox<String> tc2Jcb;
+    private JComboBox<String> tc3Jcb;
+    private JDateChooser tuNgayCalendar;
+    private JDateChooser denNgayCalendar;
+    private JButton lichSuButton1_1;
     /**
      * Creates new form TimKiemPanel
      */
     public TimKiemPanel(JFrame parentFrame) {
         this.parentFrame = parentFrame;
         initComponents();
+        controller = new TimKiemPanelController(jtfSearch, tableJpn, lichSuButton1_1, tuNgayCalendar, denNgayCalendar);
+        controller.setParentJFrame(parentFrame);
     }
 
     /**
@@ -59,120 +77,167 @@ public class TimKiemPanel extends javax.swing.JPanel {
         lblTiuCh_1.setText("Ti\u00EAu ch\u00ED 3:");
         lblTiuCh_1.setFont(new Font("Arial", Font.BOLD, 14));
         
-        JLabel lblTiuCh_2 = new JLabel();
-        lblTiuCh_2.setText("Ti\u00EAu ch\u00ED 4:");
-        lblTiuCh_2.setFont(new Font("Arial", Font.BOLD, 14));
+        tc1Jcb = new JComboBox<String>();
+        tc1Jcb.setModel(new DefaultComboBoxModel(new String[] {"To\u00E0n b\u1ED9", "M\u00E3 nh\u00E2n kh\u1EA9u", "H\u1ECD t\u00EAn", "Bi\u1EC7t danh", "N\u01A1i sinh", "Nguy\u00EAn qu\u00E1n", "D\u00E2n t\u1ED9c", "T\u00F4n gi\u00E1o", "Qu\u1ED1c t\u1ECBch", "H\u1ED9 chi\u1EBFu", "N\u01A1i th\u01B0\u1EDDng tr\u00FA", "\u0110\u1ECBa ch\u1EC9 hi\u1EC7n nay", "H\u1ECDc v\u1EA5n", "Chuy\u00EAn m\u00F4n", "Ngh\u1EC1 nghi\u1EC7p", "N\u01A1i l\u00E0m vi\u1EC7c", "Ti\u1EC1n \u00E1n"}));
+        tc1Jcb.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        JComboBox<String> GenderJcb = new JComboBox<String>();
-        GenderJcb.setFont(new Font("Arial", Font.PLAIN, 14));
+        tc2Jcb = new JComboBox<String>();
+        tc2Jcb.setModel(new DefaultComboBoxModel(new String[] {"To\u00E0n b\u1ED9", "M\u00E3 nh\u00E2n kh\u1EA9u", "H\u1ECD t\u00EAn", "Bi\u1EC7t danh", "N\u01A1i sinh", "Nguy\u00EAn qu\u00E1n", "D\u00E2n t\u1ED9c", "T\u00F4n gi\u00E1o", "Qu\u1ED1c t\u1ECBch", "H\u1ED9 chi\u1EBFu", "N\u01A1i th\u01B0\u1EDDng tr\u00FA", "\u0110\u1ECBa ch\u1EC9 hi\u1EC7n nay", "H\u1ECDc v\u1EA5n", "Chuy\u00EAn m\u00F4n", "Ngh\u1EC1 nghi\u1EC7p", "N\u01A1i l\u00E0m vi\u1EC7c", "Ti\u1EC1n \u00E1n"}));
+        tc2Jcb.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        JComboBox<String> GenderJcb_1 = new JComboBox<String>();
-        GenderJcb_1.setFont(new Font("Arial", Font.PLAIN, 14));
+        tc3Jcb = new JComboBox<String>();
+        tc3Jcb.setModel(new DefaultComboBoxModel(new String[] {"To\u00E0n b\u1ED9", "M\u00E3 nh\u00E2n kh\u1EA9u", "H\u1ECD t\u00EAn", "Bi\u1EC7t danh", "N\u01A1i sinh", "Nguy\u00EAn qu\u00E1n", "D\u00E2n t\u1ED9c", "T\u00F4n gi\u00E1o", "Qu\u1ED1c t\u1ECBch", "H\u1ED9 chi\u1EBFu", "N\u01A1i th\u01B0\u1EDDng tr\u00FA", "\u0110\u1ECBa ch\u1EC9 hi\u1EC7n nay", "H\u1ECDc v\u1EA5n", "Chuy\u00EAn m\u00F4n", "Ngh\u1EC1 nghi\u1EC7p", "N\u01A1i l\u00E0m vi\u1EC7c", "Ti\u1EC1n \u00E1n"}));
+        tc3Jcb.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        JComboBox<String> GenderJcb_2 = new JComboBox<String>();
-        GenderJcb_2.setFont(new Font("Arial", Font.PLAIN, 14));
+        tieuChi1_text = new JTextField();
+        tieuChi1_text.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        JComboBox<String> GenderJcb_3 = new JComboBox<String>();
-        GenderJcb_3.setFont(new Font("Arial", Font.PLAIN, 14));
+        tieuChi2_text = new JTextField();
+        tieuChi2_text.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        textField = new JTextField();
-        textField.setFont(new Font("Arial", Font.PLAIN, 14));
-        
-        textField_1 = new JTextField();
-        textField_1.setFont(new Font("Arial", Font.PLAIN, 14));
-        
-        textField_2 = new JTextField();
-        textField_2.setFont(new Font("Arial", Font.PLAIN, 14));
-        
-        textField_3 = new JTextField();
-        textField_3.setFont(new Font("Arial", Font.PLAIN, 14));
+        tieuChi3_text = new JTextField();
+        tieuChi3_text.setFont(new Font("Arial", Font.PLAIN, 14));
         
         JButton jButton1 = new JButton();
         jButton1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		timNhanKhauActionPerformed(e);
         	}
         });
-        jButton1.setText("T\u00ECm Ki\u1EBFm");
+        jButton1.setText("T\u00ECm nh\u00E2n kh\u1EA9u");
         jButton1.setFont(new Font("Arial", Font.PLAIN, 14));
         
-        JButton jButton1_1 = new JButton();
-        jButton1_1.setText("L\u1ECBch s\u1EED thay \u0111\u1ED5i nh\u00E2n kh\u1EA9u");
-        jButton1_1.setFont(new Font("Arial", Font.PLAIN, 14));
+        lichSuButton1_1 = new JButton();
+        
+        lichSuButton1_1.setText("L\u1ECBch s\u1EED thay \u0111\u1ED5i nh\u00E2n kh\u1EA9u");
+        lichSuButton1_1.setFont(new Font("Arial", Font.PLAIN, 14));
+        
+        tableJpn = new JPanel();
+        GroupLayout gl_tableJpn = new GroupLayout(tableJpn);
+        gl_tableJpn.setHorizontalGroup(
+        	gl_tableJpn.createParallelGroup(Alignment.LEADING)
+        		.addGap(0, 302, Short.MAX_VALUE)
+        		.addGap(0, 302, Short.MAX_VALUE)
+        );
+        gl_tableJpn.setVerticalGroup(
+        	gl_tableJpn.createParallelGroup(Alignment.LEADING)
+        		.addGap(0, 224, Short.MAX_VALUE)
+        		.addGap(0, 224, Short.MAX_VALUE)
+        );
+        tableJpn.setLayout(gl_tableJpn);
+        
+        jtfSearch = new JTextField();
+        jtfSearch.setFont(new Font("Arial", Font.PLAIN, 14));
+        
+        tuNgayCalendar = new JDateChooser();
+        
+        denNgayCalendar = new JDateChooser();
+        
+        JLabel jLabel7_1 = new JLabel();
+        jLabel7_1.setText("T\u1EEB ng\u00E0y:");
+        jLabel7_1.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        JLabel jLabel7_1_1 = new JLabel();
+        jLabel7_1_1.setText("\u0110\u1EBFn ng\u00E0y:");
+        jLabel7_1_1.setFont(new Font("Arial", Font.BOLD, 14));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         layout.setHorizontalGroup(
-        	layout.createParallelGroup(Alignment.LEADING)
-        		.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-        			.addGap(44)
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        	layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
         				.addGroup(layout.createSequentialGroup()
-        					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-        					.addPreferredGap(ComponentPlacement.RELATED))
-        				.addGroup(layout.createSequentialGroup()
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+        						.addGroup(layout.createSequentialGroup()
+        							.addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(tc1Jcb, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
+        						.addComponent(tieuChi1_text))
         					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-        						.addComponent(jLabel7, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(GenderJcb, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(GenderJcb_2, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
-        					.addGap(21))
-        				.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-        					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-        						.addComponent(textField_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-        						.addComponent(lblTiuCh_1, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
-        					.addPreferredGap(ComponentPlacement.RELATED)))
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(layout.createSequentialGroup()
+        						.addGroup(layout.createSequentialGroup()
+        							.addGap(8)
+        							.addComponent(lblTiuCh)
+        							.addGap(10)
+        							.addComponent(tc2Jcb, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        						.addGroup(layout.createSequentialGroup()
+        							.addPreferredGap(ComponentPlacement.UNRELATED)
+        							.addComponent(tieuChi2_text, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)))
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
         					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        						.addComponent(lblTiuCh)
-        						.addComponent(GenderJcb_3, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(GenderJcb_1, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
-        					.addContainerGap())
-        				.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-        					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-        						.addComponent(textField_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-        						.addComponent(lblTiuCh_2, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
-        					.addContainerGap())))
-        		.addGroup(layout.createSequentialGroup()
-        			.addGap(270)
-        			.addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(274, Short.MAX_VALUE))
-        		.addGroup(layout.createSequentialGroup()
-        			.addGap(433)
-        			.addComponent(jButton1_1, GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+        						.addGroup(layout.createSequentialGroup()
+        							.addComponent(lblTiuCh_1, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(tc3Jcb, 0, 100, Short.MAX_VALUE))
+        						.addComponent(tieuChi3_text, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+        					.addGap(18)
+        					.addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addComponent(tableJpn, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+        					.addGap(18)
+        					.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+        						.addComponent(lichSuButton1_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(jLabel7_1, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(jLabel7_1_1, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(denNgayCalendar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(tuNgayCalendar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        				.addComponent(jtfSearch, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 324, GroupLayout.PREFERRED_SIZE))
         			.addContainerGap())
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
-        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(lblTiuCh, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addComponent(GenderJcb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(GenderJcb_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(textField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        			.addGap(4)
-        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(lblTiuCh_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(lblTiuCh_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        			.addPreferredGap(ComponentPlacement.RELATED)
-        			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(GenderJcb_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(GenderJcb_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        			.addPreferredGap(ComponentPlacement.RELATED)
+        				.addGroup(layout.createSequentialGroup()
+        					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(jLabel7, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(tc1Jcb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(tc3Jcb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(tc2Jcb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(lblTiuCh_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(lblTiuCh, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+        						.addComponent(tieuChi1_text, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(tieuChi2_text, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        						.addComponent(tieuChi3_text, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(29)
+        					.addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
         			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        			.addGap(18)
-        			.addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-        			.addGap(74)
-        			.addComponent(jButton1_1, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(53, Short.MAX_VALUE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(19)
+        					.addComponent(jtfSearch, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(tableJpn, GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
+        				.addGroup(layout.createSequentialGroup()
+        					.addGap(96)
+        					.addComponent(jLabel7_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(tuNgayCalendar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        					.addGap(8)
+        					.addComponent(jLabel7_1_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(denNgayCalendar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        					.addGap(18)
+        					.addComponent(lichSuButton1_1, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)))
+        			.addContainerGap())
         );
         this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
+    
+    public void timNhanKhauActionPerformed(ActionEvent e) {
+    	TimNhanKhauJFrame timNhanKhau = new TimNhanKhauJFrame(this.parentFrame, this.tc1Jcb, this.tc2Jcb, this.tc3Jcb,
+    			                                              this.tieuChi1_text, this.tieuChi2_text, this.tieuChi3_text);
+        timNhanKhau.setLocationRelativeTo(null);
+        timNhanKhau.setResizable(false);
+        timNhanKhau.setVisible(true);
+    }
+    
+    /*public void lichSuThayDoiNhanKhauActionPerformed(ActionEvent e) {
+    	LSuThayDoiNhanKhauJFrame lichSu = new LSuThayDoiNhanKhauJFrame(this.parentFrame, this.tuNgayCalendar, this.denNgayCalendar);
+    	lichSu.setLocationRelativeTo(null);
+    	lichSu.setResizable(false);
+    	lichSu.setVisible(true);
+    }*/
 }

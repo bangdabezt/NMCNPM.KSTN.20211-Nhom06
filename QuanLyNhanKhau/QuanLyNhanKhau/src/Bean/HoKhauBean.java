@@ -5,6 +5,7 @@ import java.util.List;
 import models.HoKhauModel;
 import models.NhanKhauModel;
 import models.ThanhVienCuaHoModel;
+import models.LichSuThayDoiNhanKhauModel;
 
 /**
  *
@@ -17,12 +18,15 @@ public class HoKhauBean {
     private NhanKhauModel chuHo;
     private List<NhanKhauModel> listNhanKhauModels;
     private List<ThanhVienCuaHoModel> listThanhVienCuaHo;
+    private List<LichSuThayDoiNhanKhauModel> listLSuNhanKhau;
 
-    public HoKhauBean(HoKhauModel hoKhauModel, NhanKhauModel chuHo, List<NhanKhauModel> listNhanKhauModels, List<ThanhVienCuaHoModel> listThanhVienCuaHo) {
+    public HoKhauBean(HoKhauModel hoKhauModel, NhanKhauModel chuHo, List<NhanKhauModel> listNhanKhauModels, 
+    		List<ThanhVienCuaHoModel> listThanhVienCuaHo, List<LichSuThayDoiNhanKhauModel> listLichSu) {
         this.hoKhauModel = hoKhauModel;
         this.chuHo = chuHo;
         this.listNhanKhauModels = listNhanKhauModels;
         this.listThanhVienCuaHo = listThanhVienCuaHo;
+        this.listLSuNhanKhau = listLichSu;
     }
     
     public HoKhauBean() {
@@ -30,6 +34,7 @@ public class HoKhauBean {
         this.chuHo = new NhanKhauModel();
         this.listNhanKhauModels = new ArrayList<>();
         this.listThanhVienCuaHo = new ArrayList<>();
+        this.listLSuNhanKhau = new ArrayList<>();
     }
 
     
@@ -63,6 +68,14 @@ public class HoKhauBean {
 
     public void setListThanhVienCuaHo(List<ThanhVienCuaHoModel> listThanhVienCuaHo) {
         this.listThanhVienCuaHo = listThanhVienCuaHo;
+    }
+    
+    public List<LichSuThayDoiNhanKhauModel> getLSuThayDoiNhanKhau(){
+    	return this.listLSuNhanKhau;
+    }
+    
+    public void setLSuThayDoiNhanKhau(List<LichSuThayDoiNhanKhauModel> listLichSu) {
+    	this.listLSuNhanKhau = listLichSu;
     }
 
     @Override

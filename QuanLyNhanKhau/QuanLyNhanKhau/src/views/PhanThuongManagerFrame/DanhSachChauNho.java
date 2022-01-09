@@ -72,7 +72,6 @@ public class DanhSachChauNho extends javax.swing.JFrame {
             public void refreshData() {
                 // do nothing
             }
-
             @Override
             public void initAction() {
                 // do nothing
@@ -319,4 +318,3 @@ public class DanhSachChauNho extends javax.swing.JFrame {
     private JPanel tablePanel ;
     private JTextPane thongTin;
 }
-

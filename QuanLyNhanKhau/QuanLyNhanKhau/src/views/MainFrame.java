@@ -23,6 +23,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
+import java.awt.Panel;
+import javax.swing.JMenuBar;
+import javax.swing.SwingConstants;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -233,6 +238,9 @@ public class MainFrame extends javax.swing.JFrame {
         			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PhanThuongBtn.setLayout(gl_PhanThuongBtn);
+        
+        panel = new JPanel();
+        panel.setBackground(Color.WHITE);
 
         javax.swing.GroupLayout jpnMenuLayout = new javax.swing.GroupLayout(jpnMenu);
         jpnMenuLayout.setHorizontalGroup(
@@ -240,17 +248,19 @@ public class MainFrame extends javax.swing.JFrame {
         		.addGroup(jpnMenuLayout.createSequentialGroup()
         			.addContainerGap()
         			.addGroup(jpnMenuLayout.createParallelGroup(Alignment.LEADING)
-        				.addComponent(NhanKhauBtn, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-        				.addComponent(HoKhauBtn, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-        				.addComponent(ThongKeBtn, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-        				.addComponent(Home, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-        				.addComponent(TimKiemBtn, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-        				.addComponent(PhanThuongBtn, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)))
+        				.addComponent(NhanKhauBtn, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+        				.addComponent(HoKhauBtn, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+        				.addComponent(ThongKeBtn, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+        				.addComponent(Home, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+        				.addComponent(TimKiemBtn, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+        				.addComponent(PhanThuongBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        		.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
         );
         jpnMenuLayout.setVerticalGroup(
         	jpnMenuLayout.createParallelGroup(Alignment.LEADING)
         		.addGroup(jpnMenuLayout.createSequentialGroup()
-        			.addGap(81)
+        			.addComponent(panel, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+        			.addGap(43)
         			.addComponent(Home, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
         			.addComponent(NhanKhauBtn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -264,6 +274,81 @@ public class MainFrame extends javax.swing.JFrame {
         			.addComponent(PhanThuongBtn, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
         			.addContainerGap(78, Short.MAX_VALUE))
         );
+        
+        ThongKeBtn_1 = new JPanel();
+        panel.add(ThongKeBtn_1);
+        ThongKeBtn_1.setBackground(Color.WHITE);
+        
+        lblEdit = new JLabel();
+        lblEdit.setBackground(Color.BLACK);
+        lblEdit.setText("Edit");
+        lblEdit.setForeground(Color.BLACK);
+        lblEdit.setFont(new Font("Arial", Font.BOLD, 14));
+        GroupLayout gl_ThongKeBtn_1 = new GroupLayout(ThongKeBtn_1);
+        gl_ThongKeBtn_1.setHorizontalGroup(
+        	gl_ThongKeBtn_1.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_ThongKeBtn_1.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(lblEdit)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        gl_ThongKeBtn_1.setVerticalGroup(
+        	gl_ThongKeBtn_1.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(gl_ThongKeBtn_1.createSequentialGroup()
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addComponent(lblEdit))
+        );
+        ThongKeBtn_1.setLayout(gl_ThongKeBtn_1);
+        
+        ThongKeBtn_2 = new JPanel();
+        ThongKeBtn_2.setForeground(Color.BLACK);
+        ThongKeBtn_2.setBackground(Color.WHITE);
+        panel.add(ThongKeBtn_2);
+        
+        lblHistory = new JLabel();
+        lblHistory.setText("History");
+        lblHistory.setForeground(Color.BLACK);
+        lblHistory.setFont(new Font("Arial", Font.BOLD, 14));
+        GroupLayout gl_ThongKeBtn_2 = new GroupLayout(ThongKeBtn_2);
+        gl_ThongKeBtn_2.setHorizontalGroup(
+        	gl_ThongKeBtn_2.createParallelGroup(Alignment.LEADING)
+        		.addGap(0, 47, Short.MAX_VALUE)
+        		.addGroup(gl_ThongKeBtn_2.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(lblHistory)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        gl_ThongKeBtn_2.setVerticalGroup(
+        	gl_ThongKeBtn_2.createParallelGroup(Alignment.TRAILING)
+        		.addGap(0, 27, Short.MAX_VALUE)
+        		.addGroup(gl_ThongKeBtn_2.createSequentialGroup()
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addComponent(lblHistory))
+        );
+        ThongKeBtn_2.setLayout(gl_ThongKeBtn_2);
+        
+        ThongKeBtn_3 = new JPanel();
+        ThongKeBtn_3.setBackground(Color.WHITE);
+        panel.add(ThongKeBtn_3);
+        
+        lblEdit_2 = new JLabel();
+        lblEdit_2.setText("Help");
+        lblEdit_2.setForeground(Color.BLACK);
+        lblEdit_2.setFont(new Font("Arial", Font.BOLD, 14));
+        GroupLayout gl_ThongKeBtn_3 = new GroupLayout(ThongKeBtn_3);
+        gl_ThongKeBtn_3.setHorizontalGroup(
+        	gl_ThongKeBtn_3.createParallelGroup(Alignment.LEADING)
+        		.addGroup(Alignment.TRAILING, gl_ThongKeBtn_3.createSequentialGroup()
+        			.addComponent(lblEdit_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        gl_ThongKeBtn_3.setVerticalGroup(
+        	gl_ThongKeBtn_3.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(Alignment.LEADING, gl_ThongKeBtn_3.createSequentialGroup()
+        			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addComponent(lblEdit_2))
+        );
+        ThongKeBtn_3.setLayout(gl_ThongKeBtn_3);
         jpnMenu.setLayout(jpnMenuLayout);
 
         javax.swing.GroupLayout jpnBeanLayout = new javax.swing.GroupLayout(jpnBean);
@@ -326,4 +411,11 @@ public class MainFrame extends javax.swing.JFrame {
     private JLabel lblPhanThuong;
     private JPanel TimKiemBtn;
     private JLabel lblTimKiem;
+    private JPanel panel;
+    private JPanel ThongKeBtn_1;
+    private JLabel lblEdit;
+    private JPanel ThongKeBtn_2;
+    private JLabel lblHistory;
+    private JPanel ThongKeBtn_3;
+    private JLabel lblEdit_2;
 }

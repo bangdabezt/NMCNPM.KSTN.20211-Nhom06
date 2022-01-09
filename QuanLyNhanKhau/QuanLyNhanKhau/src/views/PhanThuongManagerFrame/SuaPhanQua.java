@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import controllers.PhanThuongManagerController.DanhSachHocSinhPanelController;
+import controllers.PhanThuongManagerController.DanhSachHocSinhController;
 import services.HocSinhService;
 
 import javax.swing.GroupLayout;
@@ -35,12 +35,12 @@ public class SuaPhanQua extends JFrame {
 	private JButton huyBtn;
 	private JButton xacNhanBtn;
 	private JFrame parentFrame;
-	private DanhSachHocSinhPanelController controller;
+	private DanhSachHocSinhController controller;
 	private String namHoc;
 	/**
 	 * Launch the application.
 	 */
-	public SuaPhanQua(JFrame parentFrame, DanhSachHocSinhPanelController controller, String namHoc) {
+	public SuaPhanQua(JFrame parentFrame, DanhSachHocSinhController controller, String namHoc) {
 		this.parentFrame = parentFrame;
 		this.controller = controller;
 		this.namHoc = namHoc;

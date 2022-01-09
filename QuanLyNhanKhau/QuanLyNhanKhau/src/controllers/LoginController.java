@@ -19,7 +19,7 @@ public class LoginController {
     public boolean login(String userName, String passwod) throws SQLException, ClassNotFoundException{
         Connection connection = MysqlConnection.getMysqlConnection();
         Statement st = connection.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM users WHERE userName = '" + userName +"'");
+        ResultSet rs = st.executeQuery("SELECT * FROM users WHERE userName = BINARY'" + userName +"'");
         if (rs == null) {
             return false;
         }
