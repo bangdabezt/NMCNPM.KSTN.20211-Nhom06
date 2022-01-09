@@ -21,6 +21,43 @@ import models.TraoQuaHsgModel;
 
 public class HocSinhService {
 	// lay danh sach hoc sinh tren dia ban
+    public List<HocSinhBean> getListViewHocSinh() {
+        List<HocSinhBean> list = new ArrayList<>();
+        try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            String query = "SELECT \n"
+            		+ "        `nhan_khau`.`ID` AS `ID`,\n"
+            		+ "        `nhan_khau`.`hoTen` AS `hoTen`,\n"
+            		+ "        `nhan_khau`.`noiLamViec` AS `noiLamViec`,\n"
+            		+ "        `thanh_vien_cua_ho`.`idHoKhau` AS `idHoKhau`,\n"
+            		+ "        `thanh_vien_cua_ho`.`quanHeVoiChuHo` AS `quanHeVoiChuHo`\n"
+            		+ "    FROM\n"
+            		+ "        `nhan_khau`\n"
+            		+ "        LEFT JOIN `thanh_vien_cua_ho` ON (`nhan_khau`.`ID` = `thanh_vien_cua_ho`.`idNhanKhau`)\n"
+            		+ "    WHERE\n"
+            		+ "        `nhan_khau`.`ngheNghiep` = 'Học sinh'";
+            PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+               	HocSinhBean hocSinhBean = new HocSinhBean();
+                NhanKhauModel nhanKhau = hocSinhBean.getNhanKhauModel();
+                nhanKhau.setID(rs.getInt("ID"));
+                nhanKhau.setHoTen(rs.getString("hoTen"));
+                nhanKhau.setNoiLamViec(rs.getString("noiLamViec"));
+                ThanhVienCuaHoModel thanhVienCuaHoModel = hocSinhBean.getThanhVienCuaHoModel();
+                thanhVienCuaHoModel.setIdHoKhau(rs.getInt("idHoKhau"));
+                thanhVienCuaHoModel.setQuanHeVoiChuHo(rs.getString("quanHeVoiChuHo"));
+                
+                list.add(hocSinhBean);
+            }
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+    
     public List<HocSinhBean> getListHocSinh() {
         List<HocSinhBean> list = new ArrayList<>();
         try {
@@ -111,8 +148,28 @@ public class HocSinhService {
     private void exceptionHandle(String message) {
         JOptionPane.showMessageDialog(null, message, "Warning", JOptionPane.ERROR_MESSAGE);
     }
-    public void capNhatPhanQua(String namhoc, String phanQuaCoBan, float giaTri, int sl_hsg, int sl_hsk, int sl_hstb) {
-    	String query = "INSERT INTO nam_hoc VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE \n"
+    public int capNhatPhanQua(String namhoc, String phanQuaCoBan, float giaTri, int sl_hsg, int sl_hsk, int sl_hstb) {
+    	String query = "SELECT DISTINCT namHoc FROM nam_hoc";
+    	try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+            	String extracted_namHoc = rs.getString("namHoc");
+            	if (namhoc.compareTo(extracted_namHoc)<=0) {
+            		JOptionPane.showMessageDialog(null, "Năm học này đã được xử lí trong quá khứ!", "Error!", JOptionPane.ERROR_MESSAGE);
+            		return -1;
+            	}
+            }
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception mysqlException) {
+            this.exceptionHandle(mysqlException.getMessage());
+        }
+    	
+    	
+    	
+    	query = "INSERT INTO nam_hoc VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE \n"
     					+ "motSuatQua = ?, tongGiaTriMotSuat = ?";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
@@ -207,6 +264,7 @@ public class HocSinhService {
                 this.exceptionHandle(mysqlException.getMessage());
             }
     	}
+    	return 0;
     }
     public String timPhuHuynh (HocSinhBean hocSinhBean) {
     	String tenPhuHuynh = null;
@@ -244,18 +302,17 @@ public class HocSinhService {
 		String query = "UPDATE trao_qua_hsg "
     			+ "SET thanhTich = ?, minhChung = ?, trangThai = "
     			+ "CASE "
-    			+ "	WHEN trangThai IS NULL THEN ? "
+    			+ "	WHEN trangThai IS NULL THEN 'Chưa nhận' "
     			+ " ELSE trangThai "
     			+ "END "
     			+ "WHERE idNhanKhau = ? AND namHoc = ?";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setNString(1,thanhTich);
+            preparedStatement.setString(1,thanhTich);
             preparedStatement.setBinaryStream(2,in);
-            preparedStatement.setNString(3,"Chưa nhận");
-            preparedStatement.setInt(4,id);
-            preparedStatement.setString(5,namHoc);
+            preparedStatement.setInt(3,id);
+            preparedStatement.setString(4,namHoc);
             preparedStatement.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cập nhật minh chứng thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
             preparedStatement.close();
@@ -275,15 +332,14 @@ public class HocSinhService {
     	}
     	java.sql.Date sqlDate = new java.sql.Date(date.getTime());
     	String query = "UPDATE trao_qua_hsg "
-    			+ "SET trangThai = ? , ngayNhan = ? "
+    			+ "SET trangThai = 'Đã nhận', ngayNhan = ? "
     			+ "WHERE idNhanKhau = ? AND namHoc = ?";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setNString(1, "Đã nhận");
-            preparedStatement.setDate(2, sqlDate);
-            preparedStatement.setInt(3,hocSinhBean.getNhanKhauModel().getID());
-            preparedStatement.setString(4,hocSinhBean.getTraoQuaHsgModel().getNamHoc());
+            preparedStatement.setDate(1, sqlDate);
+            preparedStatement.setInt(2,hocSinhBean.getNhanKhauModel().getID());
+            preparedStatement.setString(3,hocSinhBean.getTraoQuaHsgModel().getNamHoc());
             preparedStatement.executeUpdate();
             JOptionPane.showMessageDialog(null, "Trao quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
             preparedStatement.close();
@@ -327,12 +383,11 @@ public class HocSinhService {
         }
     	String slnqquery = "SELECT COUNT(*) AS slnq "
     			+ "FROM trao_qua_hsg "
-    			+ "WHERE namHoc = ? AND trangThai = ? ";
+    			+ "WHERE namHoc = ? AND trangThai = 'Đã nhận'";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(slnqquery);
             preparedStatement.setString(1, namHoc);
-            preparedStatement.setNString(2, "Đã nhận");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
             	soluongnq = rs.getInt("slnq");
@@ -368,7 +423,7 @@ public class HocSinhService {
     public ArrayList<String> getAllNamHoc(){
     	ArrayList<String> namHocList = new ArrayList<String>();
     	String query = "SELECT DISTINCT namHoc "
-    			+ "FROM danh_sach_nhan_qua_cac_nam order by namHoc desc";
+    			+ "FROM danh_sach_nhan_qua_cac_nam";
     	try {
             Connection connection = MysqlConnection.getMysqlConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);

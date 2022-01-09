@@ -342,8 +342,8 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
     	int sl_hsg = Integer.parseInt(textField_5.getText());
     	int sl_hsk = Integer.parseInt(textField_3.getText());
     	int sl_hstb = Integer.parseInt(textField.getText());
-    	hocSinhService.capNhatPhanQua(namhoc, phanQuaCoBan, giaTri, sl_hsg, sl_hsk, sl_hstb);
-    	JOptionPane.showMessageDialog(null, "Tạo danh sách phát quà và phần quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
+    	if (hocSinhService.capNhatPhanQua(namhoc, phanQuaCoBan, giaTri, sl_hsg, sl_hsk, sl_hstb) == 0)
+    		JOptionPane.showMessageDialog(null, "Tạo danh sách phát quà và phần quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
     	}
     	catch(Exception e) {
     		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Vui lòng kiểm tra lại.", "Warning!!", JOptionPane.ERROR_MESSAGE);

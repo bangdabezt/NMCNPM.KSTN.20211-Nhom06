@@ -72,7 +72,7 @@ public class DanhSachHocSinhController {
         this.jtfSearch = jtfSearch;
         classTableModel = new ClassTableModel();
         this.hocSinhService = new HocSinhService();
-        this.listHocSinhBeans = this.hocSinhService.getListHocSinh();
+        this.listHocSinhBeans = this.hocSinhService.getListViewHocSinh();
         initAction();
     }
 

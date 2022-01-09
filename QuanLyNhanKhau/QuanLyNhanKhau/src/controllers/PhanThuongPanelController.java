@@ -33,7 +33,7 @@ public class PhanThuongPanelController {
             }
             preparedStatement.close();
             
-            query = "SELECT COUNT(*) AS tong FROM nhan_khau WHERE YEAR(NOW()) - YEAR(namSinh) BETWEEN 6 AND 18";
+            query = "SELECT COUNT(*) AS tong FROM nhan_khau WHERE ngheNghiep = 'Học sinh'";
             preparedStatement = (PreparedStatement)connection.prepareStatement(query);
             rs = preparedStatement.executeQuery();
             while (rs.next()){
