@@ -137,7 +137,7 @@ public class ClassTableModel {
             }
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                return columnIndex == 4 ? Boolean.class : String.class;
+                return columnIndex == 5 ? Boolean.class : String.class;
             }
         };
         dtm.setColumnIdentifiers(listColumn);
@@ -149,6 +149,7 @@ public class ClassTableModel {
 			obj[1] = row.get(1);
 		    obj[2] = row.get(2);
 			obj[3] = row.get(3);
+			obj[4] = row.get(4);
 			dtm.addRow(obj);
 		}
 		

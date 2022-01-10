@@ -218,7 +218,7 @@ public class MainFrame extends javax.swing.JFrame {
         PhanThuongBtn.setBackground(new Color(102, 102, 102));
         
         lblPhanThuong = new JLabel();
-        lblPhanThuong.setIcon(new ImageIcon(MainFrame.class.getResource("/Icons/icon-gift.jpg")));
+        lblPhanThuong.setIcon(new ImageIcon(MainFrame.class.getResource("/Icons/gift_icon.png")));
         lblPhanThuong.setText("Phần thưởng");
         lblPhanThuong.setForeground(Color.WHITE);
         lblPhanThuong.setFont(new Font("Arial", Font.BOLD, 14));

@@ -54,7 +54,7 @@ public class DanhSachHocSinhController {
     private ClassTableModel classTableModel = null;
     private final String[] COLUMNS = {"ID", "Họ tên", "Trường", "ID Hộ Khẩu", "Quan hệ với chủ hộ"};
     private final String[] COLUMNSTRAOQUA = {"ID", "Họ tên", "Thành tích", "Minh chứng", "Trạng thái"};
-    private final String[] COLUMNSTHONGKE = {"ID", "Họ tên", "Thành tích", "Giá trị"};
+    private final String[] COLUMNSTHONGKE = {"ID", "Họ tên", "Thành tích","Số suất", "Giá trị"};
     private JFrame parentJFrame;
     private JButton suaPhanQuaBtn;
     private JButton capNhatMcBtn;
@@ -66,6 +66,7 @@ public class DanhSachHocSinhController {
     private JComboBox namHocCb;
     private JTextPane hsLabel;
     private ArrayList<ArrayList<Object>> thongKe;
+    private JTextPane phanQuaPane;
     
     public DanhSachHocSinhController(JPanel jpnView, JTextField jtfSearch) {
         this.jpnView = jpnView;
@@ -76,7 +77,7 @@ public class DanhSachHocSinhController {
         initAction();
     }
 
-	public DanhSachHocSinhController(JPanel jpnView, JTextField jtfSearch, JTextField namHocField, JButton suaPhanQuaBtn, JButton capNhatMcBtn, JButton traoQuaBtn, JDateChooser ngayTrao, JTextPane info, JFrame parentFrame) {
+	public DanhSachHocSinhController(JPanel jpnView, JTextPane phanQuaPane, JTextField jtfSearch, JTextField namHocField, JButton suaPhanQuaBtn, JButton capNhatMcBtn, JButton traoQuaBtn, JDateChooser ngayTrao, JTextPane info, JFrame parentFrame) {
         this.jpnView = jpnView;
         this.jtfSearch = jtfSearch;
         this.namHocField = namHocField;
@@ -88,6 +89,7 @@ public class DanhSachHocSinhController {
         this.traoQuaBtn = traoQuaBtn;
         this.ngayTrao = ngayTrao;
         this.info = info;
+        this.phanQuaPane = phanQuaPane;
         this.parentJFrame = parentFrame;
         initAction();
     }
@@ -323,11 +325,19 @@ public class DanhSachHocSinhController {
     	int soluongqua = 0;
     	float tonggt = 0;
     	for (ArrayList<Object> row : thongKe) {
-    		soluongqua += (int)row.get(4);
-    		tonggt += (float)row.get(3);
+    		soluongqua += (int)row.get(3);
+    		tonggt += (float)row.get(4);
     	}
     	hsLabel.setText("Tổng số lượng phần quà: "+ (long)soluongqua + 
     			"\nTổng giá trị: " + (long) tonggt + " VND");
+    }
+    
+    public void setTextPhanQua() {
+    	String namHoc = this.listHocSinhBeans.get(0).getTraoQuaHsgModel().getNamHoc();
+    	ArrayList<Object> phanQua = hocSinhService.getPhanQua(namHoc);
+    	this.phanQuaPane.setText("Phần quà cơ bản: " + phanQua.get(0) +
+    							"\nGiá trị: " + ((Integer)phanQua.get(1)).toString() +
+    						    "\nHSG: " + ((Integer)phanQua.get(2)).toString() + ", HSK: " + ((Integer)phanQua.get(3)).toString() + ", HSTB: " + ((Integer)phanQua.get(4)).toString());
     }
     
     public void setText() {
@@ -392,6 +402,7 @@ public class DanhSachHocSinhController {
     	suaPhanQua.setLocationRelativeTo(null);
     	suaPhanQua.setResizable(false);
     	suaPhanQua.setVisible(true);
+    	//setTextPhanQua();
     }
     
     public void traoQuaBtnActionPerformed(ActionEvent e) {

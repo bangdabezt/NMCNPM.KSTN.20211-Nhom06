@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -58,7 +59,7 @@ public class PhanThuongPanel extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/network.png"))); // NOI18N
+        jLabel1.setIcon(new ImageIcon(PhanThuongPanel.class.getResource("/Icons/kid_icon.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -108,7 +109,7 @@ public class PhanThuongPanel extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(102, 102, 102));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/house.png"))); // NOI18N
+        jLabel4.setIcon(new ImageIcon(PhanThuongPanel.class.getResource("/Icons/student_icon.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);

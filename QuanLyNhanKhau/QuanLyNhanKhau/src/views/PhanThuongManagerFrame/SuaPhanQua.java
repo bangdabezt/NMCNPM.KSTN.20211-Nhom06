@@ -205,8 +205,9 @@ public class SuaPhanQua extends JFrame {
 	    	int sl_hsk = Integer.parseInt(hskTxt.getText());
 	    	int sl_hstb = Integer.parseInt(hstbTxt.getText());
 	    	HocSinhService hocSinhService = new HocSinhService();
-			hocSinhService .capNhatPhanQua(namHoc, phanQuaCoBan, giaTri, sl_hsg, sl_hsk, sl_hstb);
-	    	JOptionPane.showMessageDialog(null, "Sửa phần quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
+			if (hocSinhService .capNhatPhanQua(namHoc, phanQuaCoBan, giaTri, sl_hsg, sl_hsk, sl_hstb) == 0);
+	    		JOptionPane.showMessageDialog(null, "Sửa phần quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
+	    	controller.setTextPhanQua();
 	    	}
 	    	catch(Exception e) {
 	    		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Vui lòng kiểm tra lại.", "Warning!!", JOptionPane.ERROR_MESSAGE);

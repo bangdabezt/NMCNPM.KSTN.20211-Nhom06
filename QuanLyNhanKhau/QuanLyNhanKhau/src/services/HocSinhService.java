@@ -156,7 +156,7 @@ public class HocSinhService {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
             	String extracted_namHoc = rs.getString("namHoc");
-            	if (namhoc.compareTo(extracted_namHoc)<=0) {
+            	if (namhoc.compareTo(extracted_namHoc) < 0) {
             		JOptionPane.showMessageDialog(null, "Năm học này đã được xử lí trong quá khứ!", "Error!", JOptionPane.ERROR_MESSAGE);
             		return -1;
             	}
@@ -321,6 +321,7 @@ public class HocSinhService {
             this.exceptionHandle(mysqlException.getMessage());
         }
     }
+    
     public void traoQua(HocSinhBean hocSinhBean, Date date) {
     	if (hocSinhBean.getTraoQuaHsgModel().getTrangThai() == null) {
     		JOptionPane.showMessageDialog(null, "Học sinh này chưa có minh chứng!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -459,8 +460,8 @@ public class HocSinhService {
  			    row.add(rs.getString("ID"));
  			    row.add(rs.getString("hoTen"));
  			    row.add(rs.getString("thanhTich"));
- 			    row.add(rs.getFloat("giaTri"));
  			    row.add(rs.getInt("soLuongSuatQua"));
+ 			    row.add(rs.getFloat("giaTri"));
  			    thongKe.add(row);
  			}
              preparedStatement.close();
@@ -470,4 +471,42 @@ public class HocSinhService {
          }
      	return thongKe;
      }
+    
+    public ArrayList<Object> getPhanQua(String namHoc){
+    	ArrayList<Object> phanQua = new ArrayList<Object>();
+    	String query = "SELECT * FROM nam_hoc WHERE namHoc = ?";
+    	try {
+             Connection connection = MysqlConnection.getMysqlConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             preparedStatement.setString(1, namHoc);
+             ResultSet rs = preparedStatement.executeQuery();
+             while(rs.next()) {
+            	String motSuatQua = rs.getString("motSuatQua");
+            	int giaTriMotSuat = Math.round(rs.getFloat("tongGiaTriMotSuat"));
+            	phanQua.add(motSuatQua);
+            	phanQua.add(giaTriMotSuat);
+ 			    break;
+ 			}
+             preparedStatement.close();
+             connection.close();
+         } catch (Exception mysqlException) {
+             this.exceptionHandle(mysqlException.getMessage());
+         }
+     	query = "SELECT * FROM qua_hsg 	WHERE namHoc = ? ORDER BY thanhTich";
+     	try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, namHoc);
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()) {
+            	int soluong = rs.getInt("soLuongSuatQua");
+            	phanQua.add(soluong);
+			}
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception mysqlException) {
+            this.exceptionHandle(mysqlException.getMessage());
+        }
+     	return phanQua;
+    }
 }
