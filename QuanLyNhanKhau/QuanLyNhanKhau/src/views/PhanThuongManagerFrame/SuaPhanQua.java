@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -92,19 +94,42 @@ public class SuaPhanQua extends JFrame {
 		
 		hsgTxt = new JTextField();
 		hsgTxt.setColumns(10);
+		hsgTxt.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
 		
 		JLabel hskLbl = new JLabel("Học sinh khá");
 		hskLbl.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		hskTxt = new JTextField();
 		hskTxt.setColumns(10);
+		hskTxt.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
 		
 		JLabel hstbLbl = new JLabel("Học sinh TB");
 		hstbLbl.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		hstbTxt = new JTextField();
 		hstbTxt.setColumns(10);
-		
+		hstbTxt.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
 		huyBtn = new JButton("Hủy");
 		huyBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		huyBtn.addActionListener(new ActionListener() {
