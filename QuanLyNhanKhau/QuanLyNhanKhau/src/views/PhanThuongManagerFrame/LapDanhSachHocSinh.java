@@ -5,6 +5,9 @@ import controllers.LoginController;
 import controllers.PhanThuongManagerController.LapDanhSachChauNhoController;
 import controllers.PhanThuongManagerController.DanhSachHocSinhController;
 import controllers.PhanThuongPanelController;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -19,7 +22,7 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import services.HocSinhService;
-
+import services.StringService;
 
 /**
  *
@@ -168,6 +171,13 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         
         textField_3 = new JTextField();
         textField_3.setFont(new Font("Arial", Font.PLAIN, 14));
+        textField_3.addKeyListener(new KeyAdapter() {
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
         
         lblPhnQu = new JLabel();
         lblPhnQu.setText("Học sinh giỏi:");
@@ -179,12 +189,26 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
         
         textField_5 = new JTextField();
         textField_5.setFont(new Font("Arial", Font.PLAIN, 14));
+        textField_5.addKeyListener(new KeyAdapter() {
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
         
         textField_6 = new JTextField();
         textField_6.setFont(new Font("Arial", Font.PLAIN, 14));
         
         textField = new JTextField();
         textField.setFont(new Font("Arial", Font.PLAIN, 14));
+        textField.addKeyListener(new KeyAdapter() {
+        	public void keyTyped(KeyEvent e) {
+        		if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+        	}
+        });
         
         lblHcSinhKh = new JLabel();
         lblHcSinhKh.setText("Học sinh khá:");
@@ -337,6 +361,10 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
     public void createBtnActionPerformed(java.awt.event.ActionEvent evt) {
     	try {
     		String namhoc = SuKienJTF.getText();
+    		if (!StringService.checkNamHoc(namhoc)) {
+    			JOptionPane.showMessageDialog(null, "Nhập format năm học sai!", "Error!", JOptionPane.ERROR_MESSAGE);
+    			return;
+    		}
     		String phanQuaCoBan = textField_1.getText();
     		float giaTri = Float.parseFloat(textField_6.getText()); 
     		int sl_hsg = Integer.parseInt(textField_5.getText());
@@ -346,7 +374,7 @@ public class LapDanhSachHocSinh extends javax.swing.JFrame {
     			JOptionPane.showMessageDialog(null, "Tạo danh sách phát quà và phần quà thành công!", "Success", JOptionPane.PLAIN_MESSAGE);
     	}
     	catch(Exception e) {
-    		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Vui lòng kiểm tra lại.", "Warning!", JOptionPane.ERROR_MESSAGE);
+    		JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Vui lòng kiểm tra lại các trường đã nhập.", "Warning!", JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
     	}
     }

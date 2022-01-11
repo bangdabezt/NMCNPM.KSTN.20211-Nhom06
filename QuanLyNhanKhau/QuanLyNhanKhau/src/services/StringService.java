@@ -25,5 +25,31 @@ public class StringService {
         }
           return null;
     }
+    
+    public static boolean isNumeric(String string) {
+    	int intValue = -1;
+    	if(string == null || string.equals("")) {
+        
+            return false;
+        }
+        if (string.charAt(0) == '-' || string.charAt(0) == '+') return false;
+        try {
+            intValue = Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException e) {
+           
+        }
+        return false;
+    }
+    
+    public static boolean checkNamHoc(String namHoc) {
+    	if (namHoc.length() != 9) return false;
+    	if (!isNumeric(namHoc.substring(0, 4))) return false;
+    	if (!isNumeric(namHoc.substring(5, 9))) return false;
+    	if (namHoc.charAt(4) != '-') return false;
+    	if (Integer.parseInt(namHoc.substring(5, 9)) - Integer.parseInt(namHoc.substring(0, 4)) != 1) return false;
+		return true;
+    	
+    }
 
 }
