@@ -20,10 +20,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import com.toedter.calendar.JDateChooser;
 
-import controllers.HoKhauPanelController;
-import views.HoKhauManagerFrame.TachHoKhau;
-import views.TimKiemManagerFrame.*;
 import controllers.TimKiemPanelController;
+import views.TimKiemManagerFrame.TimNhanKhauJFrame;
+
 import javax.swing.DefaultComboBoxModel;
 
 /**

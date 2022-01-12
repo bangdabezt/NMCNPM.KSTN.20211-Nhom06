@@ -297,7 +297,7 @@ public class TraoQuaHoKhauService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-		String res = "Người tạo: "+ leTetModel.getTenNguoiTao() +"\r\nThời gian tạo sự kiện: " + leTetModel.getThoiGianTao() 
+		String res = "Người tạo: "+ leTetModel.getTenNguoiTao() +"\r\nThời gian tạo sự kiện: " + leTetModel.getThoiGianTao()+"\r\nMột suất quà: " + leTetModel.getMotSuatQua()+"\r\nGiá trị một suất: " +(int) leTetModel.getTongGiaTriMotSuat()+" VNĐ" 
 					+ "\r\nCó " + soHoNhanQua + "/" + soHo + " hộ gia đình trong diện trao quà \r\nCó " + soHoDaNhanQua + "/" + soHoNhanQua + " hộ đã nhận quà";
 		return res;
 	}
