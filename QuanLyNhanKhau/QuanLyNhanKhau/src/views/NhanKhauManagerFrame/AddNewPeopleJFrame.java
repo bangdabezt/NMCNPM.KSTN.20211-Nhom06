@@ -14,6 +14,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.GroupLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
 
 
 /**
@@ -423,6 +426,11 @@ public class AddNewPeopleJFrame extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        
+        JLabel jLabel11_1 = new JLabel();
+        jLabel11_1.setText("(*)");
+        jLabel11_1.setForeground(Color.RED);
+        jLabel11_1.setFont(new Font("Arial", Font.PLAIN, 14));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1Layout.setHorizontalGroup(
@@ -448,7 +456,9 @@ public class AddNewPeopleJFrame extends javax.swing.JFrame {
         							.addComponent(jLabel10, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
         							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         							.addComponent(soCMTTxb, GroupLayout.PREFERRED_SIZE, 318, GroupLayout.PREFERRED_SIZE)
-        							.addGap(19))
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(jLabel11_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+        							.addPreferredGap(ComponentPlacement.RELATED))
         						.addGroup(jPanel1Layout.createSequentialGroup()
         							.addComponent(jLabel12)
         							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -538,11 +548,11 @@ public class AddNewPeopleJFrame extends javax.swing.JFrame {
         								.addComponent(jLabel24)
         								.addComponent(jLabel29)
         								.addComponent(jLabel33)
-        								.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
-        									.addGroup(Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        								.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING, false)
+        									.addGroup(jPanel1Layout.createSequentialGroup()
         										.addGap(2)
         										.addComponent(jLabel13, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        									.addComponent(jLabel3, Alignment.LEADING)))
+        									.addComponent(jLabel3)))
         							.addGap(21)
         							.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         								.addComponent(bietDanhTxb, GroupLayout.PREFERRED_SIZE, 318, GroupLayout.PREFERRED_SIZE)
@@ -589,12 +599,17 @@ public class AddNewPeopleJFrame extends javax.swing.JFrame {
         						.addComponent(danTocTxb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addComponent(jLabel12, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         						.addComponent(jLabel11, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-        					.addGap(18)
-        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
-        						.addComponent(soCMTTxb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(jLabel10, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(soHoChieuTxb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(jLabel17, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addGap(18)
+        							.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        								.addComponent(soCMTTxb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        								.addComponent(jLabel10, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        								.addComponent(soHoChieuTxb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+        								.addComponent(jLabel17, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addGap(18)
+        							.addComponent(jLabel11_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
         					.addGap(18)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
         						.addComponent(noiThuongTruTxb, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
@@ -868,5 +883,4 @@ public class AddNewPeopleJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField trinhDoChuyenMonTxb;
     private javax.swing.JTextField trinhDoHocVanTxb;
     private javax.swing.JTextField trinhDoNgoaiNguTxb;
-    // End of variables declaration//GEN-END:variables
 }

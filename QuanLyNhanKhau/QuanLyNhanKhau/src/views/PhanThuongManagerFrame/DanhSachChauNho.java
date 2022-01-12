@@ -113,7 +113,6 @@ public class DanhSachChauNho extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        ConfirmBtn = new javax.swing.JButton();
         CancelBtn = new javax.swing.JButton();
         CancelBtn.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -127,20 +126,10 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        
-
-        ConfirmBtn.setBackground(new java.awt.Color(255, 255, 255));
-        ConfirmBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        ConfirmBtn.setText("Confirm");
-        ConfirmBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	actionCancelPerformed(evt);
-            }
-        });
 
         CancelBtn.setBackground(new java.awt.Color(255, 255, 255));
         CancelBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        CancelBtn.setText("Cancel");
+        CancelBtn.setText("Đóng");
         
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -214,7 +203,7 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         						.addGroup(jPanel1Layout.createSequentialGroup()
         							.addComponent(jLabel1)
         							.addGap(26)
-        							.addComponent(cbNam, 0, 255, Short.MAX_VALUE)
+        							.addComponent(cbNam, 0, 252, Short.MAX_VALUE)
         							.addGap(103)
         							.addComponent(lblSKin, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
         							.addPreferredGap(ComponentPlacement.RELATED)
@@ -223,28 +212,28 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         							.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 727, GroupLayout.PREFERRED_SIZE)
         							.addPreferredGap(ComponentPlacement.RELATED)))
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        						.addGroup(jPanel1Layout.createSequentialGroup()
-        							.addPreferredGap(ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-        							.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
-        								.addGroup(jPanel1Layout.createSequentialGroup()
-        									.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-        									.addGap(69)
-        									.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-        									.addGap(73))
-        								.addGroup(jPanel1Layout.createSequentialGroup()
-        									.addComponent(jLabel8)
-        									.addPreferredGap(ComponentPlacement.UNRELATED)
-        									.addComponent(namSinhDateC, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
-        									.addGap(37))
-        								.addGroup(jPanel1Layout.createSequentialGroup()
-        									.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
-        										.addComponent(btnTraoQua, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        										.addComponent(btnSaPhnQu, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
-        									.addGap(133))))
-        						.addGroup(jPanel1Layout.createSequentialGroup()
-        							.addGap(53)
-        							.addComponent(thongTin, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
-        							.addContainerGap())))))
+        						.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        							.addGroup(jPanel1Layout.createSequentialGroup()
+        								.addPreferredGap(ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+        								.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        									.addGroup(jPanel1Layout.createSequentialGroup()
+        										.addComponent(jLabel8)
+        										.addPreferredGap(ComponentPlacement.UNRELATED)
+        										.addComponent(namSinhDateC, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
+        										.addGap(37))
+        									.addGroup(jPanel1Layout.createSequentialGroup()
+        										.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
+        											.addComponent(btnTraoQua, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        											.addComponent(btnSaPhnQu, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
+        										.addGap(133))))
+        							.addGroup(jPanel1Layout.createSequentialGroup()
+        								.addGap(53)
+        								.addComponent(thongTin, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
+        								.addContainerGap()))
+        						.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+        							.addGap(148))))))
         );
         jPanel1Layout.setVerticalGroup(
         	jPanel1Layout.createParallelGroup(Alignment.LEADING)
@@ -269,9 +258,7 @@ public class DanhSachChauNho extends javax.swing.JFrame {
         					.addGap(18)
         					.addComponent(btnTraoQua, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
         					.addGap(32)
-        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
-        						.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
+        					.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
         				.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
         			.addGap(18)
         			.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
@@ -307,7 +294,6 @@ public class DanhSachChauNho extends javax.swing.JFrame {
 	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelBtn;
-    private javax.swing.JButton ConfirmBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;

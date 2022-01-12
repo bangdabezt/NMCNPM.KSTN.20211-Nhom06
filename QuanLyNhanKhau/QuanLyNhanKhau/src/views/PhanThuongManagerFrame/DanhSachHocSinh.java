@@ -122,7 +122,6 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         SuKienJTF = new javax.swing.JTextField();
         ConfirmBtn = new javax.swing.JButton();
-        CancelBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         ngayTrao = new com.toedter.calendar.JDateChooser();
@@ -136,19 +135,10 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
 
         ConfirmBtn.setBackground(new java.awt.Color(255, 255, 255));
         ConfirmBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        ConfirmBtn.setText("Confirm");
+        ConfirmBtn.setText("Đóng");
         ConfirmBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
             	confirmBtnActionPerformed(evt);
-            }
-        });
-
-        CancelBtn.setBackground(new java.awt.Color(255, 255, 255));
-        CancelBtn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        CancelBtn.setText("Cancel");
-        CancelBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-            	cancelBtnActionPerformed(evt);
             }
         });
 
@@ -234,29 +224,28 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         								.addComponent(ngayTrao, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         							.addComponent(tablePanel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 680, GroupLayout.PREFERRED_SIZE))
         						.addComponent(lblDanhSchCc, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE))
-        					.addPreferredGap(ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
-        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
-        						.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        					.addPreferredGap(ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        						.addGroup(jPanel1Layout.createSequentialGroup()
         							.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
         								.addComponent(btnTraoQua, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        								.addComponent(btnSaPhnQu_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        								.addComponent(btnSaPhnQu, Alignment.LEADING))
+        								.addComponent(btnSaPhnQu, Alignment.LEADING)
+        								.addComponent(btnSaPhnQu_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         							.addGap(105))
-        						.addGroup(Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-        							.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING, false)
-        								.addComponent(txtpnPhanQua, Alignment.LEADING)
-        								.addComponent(txtpnA, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-        								.addGroup(Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-        									.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-        									.addGap(82)
-        									.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))
-        							.addGap(60))))))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+        							.addGap(136))
+        						.addGroup(jPanel1Layout.createSequentialGroup()
+        							.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        								.addComponent(txtpnA, GroupLayout.PREFERRED_SIZE, 253, GroupLayout.PREFERRED_SIZE)
+        								.addComponent(txtpnPhanQua, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+        							.addGap(21))))))
         );
         jPanel1Layout.setVerticalGroup(
         	jPanel1Layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(jPanel1Layout.createSequentialGroup()
         			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
-        				.addGroup(Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        				.addGroup(jPanel1Layout.createSequentialGroup()
         					.addGap(37)
         					.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
         						.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
@@ -266,23 +255,22 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
         						.addComponent(ngayTrao, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
         					.addGap(18)
         					.addComponent(lblDanhSchCc, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+        					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         					.addComponent(tablePanel, GroupLayout.PREFERRED_SIZE, 399, GroupLayout.PREFERRED_SIZE))
         				.addGroup(jPanel1Layout.createSequentialGroup()
         					.addContainerGap()
         					.addComponent(txtpnA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         					.addGap(18)
         					.addComponent(txtpnPhanQua, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        					.addGap(36)
+        					.addGap(45)
         					.addComponent(btnSaPhnQu_1, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
         					.addGap(18)
         					.addComponent(btnSaPhnQu, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
         					.addGap(18)
         					.addComponent(btnTraoQua, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-        					.addGap(88)
-        					.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
-        						.addComponent(CancelBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-        						.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))))
+        					.addGap(30)
+        					.addComponent(ConfirmBtn, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+        					.addGap(8)))
         			.addGap(18)
         			.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
         			.addGap(23))
@@ -302,31 +290,12 @@ public class DanhSachHocSinh extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {
-    	if (JOptionPane.showConfirmDialog(this, "Are you sure to close?", "Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-            this.parentFrame.setEnabled(true);
-            dispose();
-        }
-    }
     public void confirmBtnActionPerformed(java.awt.event.ActionEvent evt) {
     	if (JOptionPane.showConfirmDialog(this, "Are you sure to confirm?", "Confirm", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
             this.parentFrame.setEnabled(true);
             dispose();
         }
     }
-    
-    // su ly su kien nhan nut create
-    //GEN-LAST:event_CreateBtnActionPerformed
-    
-    
-    // check cac gia tri duoc nhap vao form
-   
-
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CancelBtn;
     private javax.swing.JButton ConfirmBtn;
     private javax.swing.JTextField SuKienJTF;
     private javax.swing.JLabel jLabel1;
