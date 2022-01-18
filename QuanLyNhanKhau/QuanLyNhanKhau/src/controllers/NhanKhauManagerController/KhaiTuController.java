@@ -32,6 +32,14 @@ public class KhaiTuController {
     public boolean addNew(KhaiTuModel khaiTuModel) {
         try {
             Connection connection = MysqlConnection.getMysqlConnection();
+            String select_query = "SELECT * FROM khai_tu WHERE idNguoiChet = " + khaiTuModel.getIdNguoiChet();
+            PreparedStatement state = connection.prepareStatement(select_query);
+            ResultSet rs = state.executeQuery();
+            if(rs.next()) {
+            	state.close(); connection.close();
+                JOptionPane.showMessageDialog(null, "Người này đã được khai tử trước đó rồi!", "Warning!!", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
             String query = "INSERT INTO khai_tu(soGiayKhaiTu, idNguoiKhai, idNguoiChet, ngayKhai, ngayChet, lyDoChet)" + " values (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, khaiTuModel.getSoGiayKhaiTu());

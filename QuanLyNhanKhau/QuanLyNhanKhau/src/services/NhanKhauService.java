@@ -22,6 +22,52 @@ public class NhanKhauService {
      * Ham lay ra 1 nhan khau trong db bang chung minh thu
      * 
      */
+	public static boolean checkTamVang(int ID) {
+		// truy cap db
+        try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            String query = "SELECT * FROM tam_vang WHERE idNhanKhau = " + ID;
+            PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+           
+            if(rs.next()) return true;
+            else return false;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+	}
+	public static boolean checkTamTru(int ID) {
+		// truy cap db
+        try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            String query = "SELECT * FROM tam_tru WHERE idNhanKhau = " + ID;
+            PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+           
+            if(rs.next()) return true;
+            else return false;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+	}
+	public static boolean checkAlive(int ID) { 
+        // truy cap db
+        try {
+            Connection connection = MysqlConnection.getMysqlConnection();
+            String query = "SELECT * FROM khai_tu WHERE idNguoiChet = " + ID;
+            PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
+            ResultSet rs = preparedStatement.executeQuery();
+           
+            if(rs.next()) return false;
+            else return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+	}
+	
 	public NhanKhauBean getNhanKhau(String cmt) {
         NhanKhauBean nhanKhauBean = new NhanKhauBean();  
         // truy cap db
@@ -105,7 +151,7 @@ public class NhanKhauService {
     }
 	
 	
-	// lay danh sach 10 nhan khau moi duoc them vao
+	
     public List<NhanKhauBean> getListNhanKhau() {
         List<NhanKhauBean> list = new ArrayList<>();
         try {
@@ -138,11 +184,11 @@ public class NhanKhauService {
     
     public List<NhanKhauBean> statisticNhanKhau(int TuTuoi, int denTuoi, String gender, String Status, int tuNam, int denNam) {
         List<NhanKhauBean> list = new ArrayList<>();
-        
         String query = "SELECT * FROM nhan_khau "
                     + " INNER JOIN chung_minh_thu ON nhan_khau.ID = chung_minh_thu.idNhanKhau"
                     + " LEFT JOIN tam_tru ON nhan_khau.ID = tam_tru.idNhanKhau "
                     + " LEFT JOIN tam_vang ON nhan_khau.ID = tam_vang.idNhanKhau "
+                    + " LEFT JOIN khai_tu ON nhan_khau.ID = khai_tu.idNguoiChet "
                     + " WHERE ROUND(DATEDIFF(CURDATE(),namSinh)/365 , 0) >= "
                     + TuTuoi
                     + " AND ROUND(DATEDIFF(CURDATE(),namSinh)/365 , 0) <= "
@@ -154,7 +200,7 @@ public class NhanKhauService {
             query += " AND (tam_tru.denNgay >= CURDATE() OR tam_tru.denNgay IS NULL)"
                     + " AND (tam_vang.denNgay <= CURDATE() OR tam_vang.denNgay IS NULL)";
         } else if (Status.equalsIgnoreCase("Thuong tru")) {
-            query += " AND tam_tru.denNgay IS NULL";
+            query += " AND tam_tru.denNgay IS NULL AND tam_vang.denNgay IS NULL AND khai_tu.ngayKhai IS NULL";
             
         } else if (Status.equalsIgnoreCase("Tam tru")) {
             query += " AND (YEAR(tam_tru.tuNgay) BETWEEN "
@@ -164,6 +210,12 @@ public class NhanKhauService {
                     + ")";
         } else if (Status.equalsIgnoreCase("Tam vang")) {
             query += " AND (YEAR(tam_vang.tuNgay) BETWEEN "
+                    + tuNam
+                    + " AND "
+                    + denNam
+                    + ")";
+        } else if(Status.equalsIgnoreCase("Dead")) {
+        	query += " AND (YEAR(khai_tu.ngayKhai) BETWEEN "
                     + tuNam
                     + " AND "
                     + denNam

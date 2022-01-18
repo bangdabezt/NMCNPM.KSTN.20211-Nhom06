@@ -183,6 +183,7 @@ public class HoKhauService {
     
     
     public boolean checkPerson(int id) {
+    	
         try {
             Connection connection = MysqlConnection.getMysqlConnection();
             String query = "SELECT * FROM ho_khau LEFT JOIN thanh_vien_cua_ho ON ho_khau.ID = thanh_vien_cua_ho.idHoKhau"

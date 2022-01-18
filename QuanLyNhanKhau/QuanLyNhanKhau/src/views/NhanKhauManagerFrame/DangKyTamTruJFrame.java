@@ -341,9 +341,10 @@ public class DangKyTamTruJFrame extends javax.swing.JFrame {
             this.tamTruModel.setDenNgay(denNgayDc.getDate());
             this.tamTruModel.setLyDo(lyDoTar.getText().trim());
             if (this.controller.addNew(this.tamTruModel)) {
-                this.parentFrame.setEnabled(true);
-                dispose();
+            	JOptionPane.showMessageDialog(null, "Đăng kí thành công!", null, JOptionPane.INFORMATION_MESSAGE);
             }
+            this.parentFrame.setEnabled(true);
+            dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập hết các trường bắt buộc!", "Warning!", JOptionPane.WARNING_MESSAGE);
         }

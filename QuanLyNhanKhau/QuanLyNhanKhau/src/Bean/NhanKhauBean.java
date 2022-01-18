@@ -6,6 +6,7 @@ import models.ChungMinhThuModel;
 import models.GiaDinhModel;
 import models.NhanKhauModel;
 import models.TieuSuModel;
+import services.NhanKhauService;
 
 /**
  *
@@ -65,9 +66,12 @@ public class NhanKhauBean {
     
     @Override
     public String toString() {
-        String res =  "<html><style>p {padding: 5px; margin-left: 20px} table, th, td {border: 1px solid black; border-collapse: collapse;} table {width: 500px}</style> <div>"
-                + "<h3>Thông tin cơ bản:"
-                + "<p>Họ tên: <b>" + nhanKhauModel.getHoTen() + "</p>"
+    	String res = "<html><style>p {padding: 5px; margin-left: 20px} table, th, td {border: 1px solid black; border-collapse: collapse;} table {width: 500px}</style> <div>"
+                + "<h3>Thông tin cơ bản:";
+    	if(!NhanKhauService.checkAlive(this.nhanKhauModel.getID())) res += "<p><b>(Đã mất)</p>";
+    	if(NhanKhauService.checkTamTru(this.nhanKhauModel.getID())) res += "<p><b>(Tạm trú)</p>";
+    	if(NhanKhauService.checkTamVang(this.nhanKhauModel.getID())) res += "<p><b>(Tạm vắng)</p>";
+        res += "<p>Họ tên: <b>" + nhanKhauModel.getHoTen() + "</p>"
                 + "<p>Năm sinh: <b>" + nhanKhauModel.getNamSinh() + "</p>"
                 + "<p>Giới tính: <b>" + nhanKhauModel.getGioiTinh() + "</p>"
                 + "<p>Nguyên quán: <b>" + nhanKhauModel.getNguyenQuan()+ "</p>"

@@ -25,7 +25,10 @@ public class PhanThuongPanelController {
     public void setData() {
         try {
             Connection connection = MysqlConnection.getMysqlConnection();
-            String query = "SELECT COUNT(*) AS tong FROM nhan_khau WHERE YEAR(NOW()) - YEAR(namSinh) BETWEEN 0 AND 18";
+//            String query = "SELECT COUNT(*) AS tong FROM nhan_khau WHERE YEAR(NOW()) - YEAR(namSinh) BETWEEN 0 AND 18";
+            String query = "SELECT COUNT(*) AS tong FROM nhan_khau LEFT JOIN khai_tu ON nhan_khau.ID = khai_tu.idNguoiChet"
+            		+ " WHERE YEAR(NOW()) - YEAR(nhan_khau.namSinh) BETWEEN 0 AND 18"
+            		+ " AND khai_tu.ngayKhai IS NULL";
             PreparedStatement preparedStatement = (PreparedStatement)connection.prepareStatement(query);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()){
@@ -33,7 +36,9 @@ public class PhanThuongPanelController {
             }
             preparedStatement.close();
             
-            query = "SELECT COUNT(*) AS tong FROM nhan_khau WHERE ngheNghiep = 'Học sinh'";
+            query = "SELECT COUNT(*) AS tong FROM nhan_khau LEFT JOIN khai_tu ON nhan_khau.ID = khai_tu.idNguoiChet"
+            		+ " WHERE ngheNghiep = 'Học sinh'"
+            		+ " AND khai_tu.ngayKhai IS NULL";
             preparedStatement = (PreparedStatement)connection.prepareStatement(query);
             rs = preparedStatement.executeQuery();
             while (rs.next()){

@@ -16,7 +16,7 @@ public class ThongKePanel extends javax.swing.JPanel {
     public ThongKePanel(JFrame parentFrame) {
         this.parentFrame = parentFrame;
         initComponents();
-        this.controller = new ThongKePanelController(GenderJcb, StatusJcb, tuTuoiJtf, denTuoiJtf, tuNamJtf, denNamJtf, tableJpn);
+        this.controller = new ThongKePanelController(parentFrame,GenderJcb, StatusJcb, tuTuoiJtf, denTuoiJtf, tuNamJtf, denNamJtf, tableJpn);
         this.controller.setDataTable();
     }
 
@@ -112,7 +112,7 @@ public class ThongKePanel extends javax.swing.JPanel {
         GenderJcb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Toàn bộ", "Nam", "Nữ" }));
 
         StatusJcb.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        StatusJcb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Toàn bộ", "Thường trú", "Tạm trú", "Tạm vắng" }));
+        StatusJcb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Toàn bộ", "Thường trú", "Tạm trú", "Tạm vắng", "Dead"}));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

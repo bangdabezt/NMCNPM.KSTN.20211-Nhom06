@@ -5,10 +5,14 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,6 +23,7 @@ import models.NhanKhauModel;
 import services.NhanKhauService;
 import services.StringService;
 import utility.ClassTableModel;
+import views.infoViews.InfoJframe;
 
 
 /**
@@ -37,9 +42,11 @@ public class ThongKePanelController {
     private List<NhanKhauBean> listNhanKhauBeans;
     private ClassTableModel classTableModel;
     private final String[] COLUMNS = {"ID", "Họ tên", "Ngày sinh", "Giới tính", "Địa chỉ hiện tại"};
-
-    public ThongKePanelController(JComboBox genderJcb, JComboBox statusJcb, JTextField tuTuoiJtf, JTextField denTuoiJtf, JTextField tuNamJtf, JTextField denNamJtf, JPanel jpnView) {
-        this.GenderJcb = genderJcb;
+    private JFrame parentFrame;
+    
+    public ThongKePanelController(JFrame parentFrame, JComboBox genderJcb, JComboBox statusJcb, JTextField tuTuoiJtf, JTextField denTuoiJtf, JTextField tuNamJtf, JTextField denNamJtf, JPanel jpnView) {
+        this.parentFrame = parentFrame;
+    	this.GenderJcb = genderJcb;
         this.StatusJcb = statusJcb;
         this.tuTuoiJtf = tuTuoiJtf;
         this.denTuoiJtf = denTuoiJtf;
@@ -97,10 +104,15 @@ public class ThongKePanelController {
             listItem.add(nhankhau.getNhanKhauModel());
         });
         DefaultTableModel model = classTableModel.setTableNhanKhau(listItem, COLUMNS);
-        JTable table = new JTable(model);
+        JTable table = new JTable(model) {
+        	@Override
+            public boolean editCellAt(int row, int column, EventObject e) {
+                return false;
+            }
+        };
         
         // thiet ke bang
-        
+       
         table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         table.getTableHeader().setPreferredSize(new Dimension(100, 50));
         table.setRowHeight(50);
@@ -110,6 +122,18 @@ public class ThongKePanelController {
         table.getColumnModel().getColumn(0).setMaxWidth(80);
         table.getColumnModel().getColumn(0).setMinWidth(80);
         table.getColumnModel().getColumn(0).setPreferredWidth(80);
+
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+//                JOptionPane.showConfirmDialog(null, table.getSelectedRow());
+                if (e.getClickCount() > 1) {
+                    NhanKhauBean info = nhanKhauService.getNhanKhau(listNhanKhauBeans.get(table.getSelectedRow()).getChungMinhThuModel().getSoCMT());
+                    InfoJframe infoJframe = new InfoJframe(info.toString(), parentFrame);
+                    infoJframe.setLocationRelativeTo(null);
+                    infoJframe.setVisible(true);
+                }
+            }});
         
         JScrollPane scroll = new JScrollPane();
         scroll.getViewport().add(table);

@@ -4,6 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 import controllers.NhanKhauManagerController.KhaiTuController;
 import models.KhaiTuModel;
 import services.MysqlConnection;
+import views.HoKhauManagerFrame.ChangeHoKhau;
 
 /**
  *
@@ -305,7 +307,21 @@ public class KhaiTuJFrame extends javax.swing.JFrame {
 			model.setNgayChet(jDateChooser2.getDate());
 			model.setNgayKhai(jDateChooser1.getDate());
 			model.setSoGiayKhaiTu(jTextField2.getText());
-			controller.addNew(model);
+			if(controller.addNew(model)) {
+				String query = "SELECT * FROM ho_khau WHERE idChuHo = " + model.getIdNguoiChet();
+				PreparedStatement preparedStatement = connection.prepareStatement(query);
+				ResultSet rs = preparedStatement.executeQuery();
+				if(rs.next()) {
+		            JOptionPane.showMessageDialog(null, "Người đã mất đang là chủ hộ. Hãy cập nhật chủ hộ mới!", null, JOptionPane.PLAIN_MESSAGE);
+				} else {
+					query = "DELETE FROM thanh_vien_cua_ho WHERE idNhanKhau = " + model.getIdNguoiChet();
+					preparedStatement = connection.prepareStatement(query);
+					preparedStatement.execute();
+		            JOptionPane.showMessageDialog(null, "Đã xóa người mất ra khỏi hộ khẩu!", "Success", JOptionPane.PLAIN_MESSAGE);
+				}
+			}
+			this.parentJFrame.setEnabled(true);
+			dispose();
 			
 		} catch (ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Vui lòng kiểm tra lại.", "Warning!!", JOptionPane.ERROR_MESSAGE);

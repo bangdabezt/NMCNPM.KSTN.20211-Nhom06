@@ -32,6 +32,14 @@ public class DangKyTamVangController {
     public boolean addNew(TamVangModel tamVangModel) {
         try {
             Connection connection = MysqlConnection.getMysqlConnection();
+            String select_query = "SELECT * FROM tam_vang WHERE idNhanKhau = " + tamVangModel.getIdNhanKhau();
+            PreparedStatement state = connection.prepareStatement(select_query);
+            ResultSet rs = state.executeQuery();
+            if(rs.next()) {
+            	state.close(); connection.close();
+                JOptionPane.showMessageDialog(null, "Người này đã được khai báo tạm vắng trước đó rồi!", "Warning!!", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
             String query = "INSERT INTO tam_vang(idNhanKhau, maGiayTamVang, noiTamTru, tuNgay, denNgay, lyDo)" + " value (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, tamVangModel.getIdNhanKhau());
